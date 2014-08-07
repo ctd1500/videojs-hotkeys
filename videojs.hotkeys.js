@@ -9,53 +9,58 @@
 (function(window, videojs) {
   'use strict';
 
-  var hotkeys = function() {
+  var hotkeys = function(options) {
     var player = this;
+
     // Set default player tabindex to handle keydown events
     if (!player.el().hasAttribute('tabIndex')) {
       player.el().setAttribute('tabIndex', '-1');
     }
 
-    player.on('keydown', keyPressListener);
-    return this;
-  };
+    player.on('keydown', function(event) {
+      var player = this;
+      var vol = options.vol || 0.1
+      var seek = options.seek || 5
 
-  var keyPressListener = function(event) {
-    var player = this;
-    // When controls are disabled, hotkeys will be disabled as well
-    if (player.controls()) {
-
-      // Don't catch keys if any control buttons are focused
-      if (document.activeElement == player.el() ||
-          document.activeElement == player.el().querySelector('.vjs-tech')) {
-
-        // Spacebar toggles play/pause
-        if (event.which === 32) {
-          event.preventDefault();
-          if (player.paused()) {
-            player.play();
-          } else {
-            player.pause();
+      // When controls are disabled, hotkeys will be disabled as well
+      if (player.controls()) {
+  
+        // Don't catch keys if any control buttons are focused
+        if (document.activeElement == player.el() ||
+            document.activeElement == player.el().querySelector('.vjs-tech')) {
+  
+          // Spacebar toggles play/pause
+          if (event.which === 32) {
+            event.preventDefault();
+            if (player.paused()) {
+              player.play();
+            } else {
+              player.pause();
+            }
+          }
+  
+          // Seeking with the left/right arrow keys
+          else if (event.which == 37) { // Left Arrow
+            event.preventDefault();
+            player.currentTime(player.currentTime() - seek);
+          } else if (event.which == 39) { // Right Arrow
+            event.preventDefault();
+            player.currentTime(player.currentTime() + seek);
+          }
+  
+          // Volume control with the up/down arrow keys
+          else if (event.which == 40) { // Down Arrow
+            event.preventDefault();
+            player.volume(player.volume() - vol);
+          } else if (event.which == 38) { // Up Arrow
+            event.preventDefault();
+            player.volume(player.volume() + vol);
           }
         }
-
-        // Seeking with the left/right arrow keys
-        else if (event.which == 37) { // Left Arrow
-          event.preventDefault();
-          player.currentTime(player.currentTime() - 5);
-        } else if (event.which == 39) { // Right Arrow
-          event.preventDefault();
-          player.currentTime(player.currentTime() + 5);
-        }
-
-        // Volume control with the up/down arrow keys
-        else if (event.which == 40) { // Down Arrow
-          player.volume(player.volume() - 0.1);
-        } else if (event.which == 38) { // Up Arrow
-          player.volume(player.volume() + 0.1);
-        }
       }
-    }
+    });
+
+    return this;
   };
 
   videojs.plugin('hotkeys', hotkeys);
