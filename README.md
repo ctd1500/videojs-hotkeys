@@ -13,8 +13,16 @@ Include the plugin:
 <script src="videojs.hotkeys.js"></script>
 ```
 
-Add hotkeys to plugins object with no options.
+Add hotkeys to plugins object.
 
     plugins: {
-      hotkeys: {}
+      hotkeys: {
+        volumeStep: 0.1,
+        seekStep: 5
+      }
     }
+
+## Options
+
+- `volumeStep` (decimal): The percentage to increase/decrease the volume level when using the Up and Down Arrow keys (default: `0.1`)
+- `seekStep` (integer): The number of seconds to seek forward and backwards when using the Right and Left Arrow keys (default: `5`)
