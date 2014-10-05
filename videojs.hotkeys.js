@@ -11,6 +11,11 @@
 
   var hotkeys = function(options) {
     var player = this;
+    var def_options = {
+      volumeStep: 0.1,
+      seekStep: 5
+    };
+    options = options || {};
 
     // Set default player tabindex to handle keydown events
     if (!player.el().hasAttribute('tabIndex')) {
@@ -19,8 +24,8 @@
 
     player.on('keydown', function(event) {
       var player = this;
-      var volumeStep = options.volumeStep || 0.1;
-      var seekStep = options.seekStep || 5;
+      var volumeStep = options.volumeStep || def_options.volumeStep;
+      var seekStep = options.seekStep || def_options.seekStep;
 
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
