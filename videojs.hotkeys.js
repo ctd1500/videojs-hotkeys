@@ -47,7 +47,13 @@
           // Seeking with the left/right arrow keys
           else if (event.which == 37) { // Left Arrow
             event.preventDefault();
-            player.currentTime(player.currentTime() - seekStep);
+            var curTime = player.currentTime() - seekStep;
+
+            // The flash player tech will allow you to seek into negative
+            // numbers and break the seekbar, so try to prevent that.
+            if (player.currentTime() <= seekStep) {
+              curTime = 0;
+            }
           } else if (event.which == 39) { // Right Arrow
             event.preventDefault();
             player.currentTime(player.currentTime() + seekStep);
