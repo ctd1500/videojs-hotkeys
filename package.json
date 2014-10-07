@@ -1,0 +1,19 @@
+{
+  "name": "videojs-hotkeys",
+  "version": "0.2.0",
+  "description": "Adds more hotkey support to video.js",
+  "author": "Chris Dougherty",
+  "license": "Apache-2.0",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/ctd1500/videojs-hotkeys/issues"
+  },
+  "homepage": "https://github.com/ctd1500/videojs-hotkeys",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.6.0",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-zip": "^0.16.0"
+  }
+}
