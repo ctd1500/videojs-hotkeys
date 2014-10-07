@@ -13,7 +13,8 @@
     var player = this;
     var def_options = {
       volumeStep: 0.1,
-      seekStep: 5
+      seekStep: 5,
+      enableMute: true
     };
     options = options || {};
 
@@ -26,6 +27,7 @@
       var player = this;
       var volumeStep = options.volumeStep || def_options.volumeStep;
       var seekStep = options.seekStep || def_options.seekStep;
+      var enableMute = options.enableMute || def_options.enableMute;
 
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
@@ -66,6 +68,17 @@
           } else if (event.which == 38) { // Up Arrow
             event.preventDefault();
             player.volume(player.volume() + volumeStep);
+          }
+
+          // Toggle Mute with the M key
+          else if (event.which == 77) {
+            if (enableMute) {
+              if (player.muted()) {
+                player.muted(false);
+              } else {
+                player.muted(true);
+              }
+            }
           }
         }
       }
