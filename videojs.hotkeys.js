@@ -14,7 +14,8 @@
     var def_options = {
       volumeStep: 0.1,
       seekStep: 5,
-      enableMute: true
+      enableMute: true,
+      enableFullscreen: true
     };
     options = options || {};
 
@@ -28,6 +29,7 @@
       var volumeStep = options.volumeStep || def_options.volumeStep;
       var seekStep = options.seekStep || def_options.seekStep;
       var enableMute = options.enableMute || def_options.enableMute;
+      var enableFull = options.enableFullscreen || def_options.enableFullscreen;
 
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
@@ -56,6 +58,7 @@
             if (player.currentTime() <= seekStep) {
               curTime = 0;
             }
+            player.currentTime(curTime);
           } else if (event.which == 39) { // Right Arrow
             event.preventDefault();
             player.currentTime(player.currentTime() + seekStep);
@@ -77,6 +80,17 @@
                 player.muted(false);
               } else {
                 player.muted(true);
+              }
+            }
+          }
+
+          // Toggle Fullscreen with the F key
+          else if (event.which == 70) {
+            if (enableFull) {
+              if (player.isFullscreen()) {
+                player.exitFullscreen();
+              } else {
+                player.requestFullscreen();
               }
             }
           }
