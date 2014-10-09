@@ -24,8 +24,17 @@
       player.el().setAttribute('tabIndex', '-1');
     }
 
-    player.on('keydown', function(event) {
-      var player = this;
+    player.on('play', function() {
+      // Fix allowing the YouTube plugin to have hotkey support.
+      var ifblocker = player.el().querySelector('.iframeblocker');
+      if (ifblocker &&
+          ifblocker.style.display == "") {
+        ifblocker.style.display = "block";
+        ifblocker.style.bottom = "39px";
+      }
+    });
+
+    var keyDown = function(event) {
       var volumeStep = options.volumeStep || def_options.volumeStep;
       var seekStep = options.seekStep || def_options.seekStep;
       var enableMute = options.enableMute || def_options.enableMute;
@@ -35,8 +44,11 @@
       if (player.controls()) {
 
         // Don't catch keys if any control buttons are focused
-        if (document.activeElement == player.el() ||
-            document.activeElement == player.el().querySelector('.vjs-tech')) {
+        var activeEl = document.activeElement;
+        if (activeEl == player.el() ||
+            activeEl == player.el().querySelector('.vjs-tech') ||
+            activeEl == player.el().querySelector('.vjs-control-bar') ||
+            activeEl == player.el().querySelector('.iframeblocker')) {
 
           // Spacebar toggles play/pause
           if (event.which === 32) {
@@ -49,7 +61,7 @@
           }
 
           // Seeking with the left/right arrow keys
-          else if (event.which == 37) { // Left Arrow
+          else if (event.which === 37) { // Left Arrow
             event.preventDefault();
             var curTime = player.currentTime() - seekStep;
 
@@ -59,33 +71,33 @@
               curTime = 0;
             }
             player.currentTime(curTime);
-          } else if (event.which == 39) { // Right Arrow
+          } else if (event.which === 39) { // Right Arrow
             event.preventDefault();
             player.currentTime(player.currentTime() + seekStep);
           }
 
           // Volume control with the up/down arrow keys
-          else if (event.which == 40) { // Down Arrow
+          else if (event.which === 40) { // Down Arrow
             event.preventDefault();
             player.volume(player.volume() - volumeStep);
-          } else if (event.which == 38) { // Up Arrow
+          } else if (event.which === 38) { // Up Arrow
             event.preventDefault();
             player.volume(player.volume() + volumeStep);
           }
 
           // Toggle Mute with the M key
-          else if (event.which == 77) {
+          else if (event.which === 77) {
             if (enableMute) {
               if (player.muted()) {
-                player.muted(false);
+                console.log(player.muted(false));
               } else {
-                player.muted(true);
+                console.log(player.muted(true));
               }
             }
           }
 
           // Toggle Fullscreen with the F key
-          else if (event.which == 70) {
+          else if (event.which === 70) {
             if (enableFull) {
               if (player.isFullscreen()) {
                 player.exitFullscreen();
@@ -96,7 +108,9 @@
           }
         }
       }
-    });
+    };
+
+    player.on('keydown', keyDown);
 
     return this;
   };
