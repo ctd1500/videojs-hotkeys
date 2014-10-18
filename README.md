@@ -26,6 +26,7 @@ Or always load the latest version:
 <script src="/path/to/videojs.hotkeys.js"></script>
 ```
 
+### Enable the plugin
 Add hotkeys to your Videojs ready function.
 
     videojs('vidId').ready(function() {
