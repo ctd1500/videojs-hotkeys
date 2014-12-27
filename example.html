@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Video.js Hotkeys</title>
+    <link href="//vjs.zencdn.net/4.11/video-js.css" rel="stylesheet">
+    <script src="//vjs.zencdn.net/4.11/video.js"></script>
+  </head>
+  <body>
+    <div>
+      You can see the Video.js Hotkeys plugin in use below.
+      Look at the source to see how to use it with your own videos.
+    </div>
+
+    <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" height="300" width="600" controls data-setup="{}">
+      <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4' />
+      <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
+      <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' />
+      <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that
+        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+    </video>
+
+    <script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
+    <script>
+      // initialize the plugin
+      videojs('video1').ready(function() {
+        this.hotkeys({
+          volumeStep: 0.1,
+          seekStep: 5,
+          enableMute: true,
+          enableFullscreen: true
+        });
+      });
+    </script>
+  </body>
+</html>
