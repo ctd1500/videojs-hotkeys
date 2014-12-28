@@ -6,7 +6,7 @@ A plugin for Video.js that enables keyboard hotkeys when the player has focus.
 * Right and Left Arrow keys seek the video forwards and back.
 * Up and Down Arrow keys increase and decrease the volume.
 * M key toggles mute/unmute.
-* F key toggles fullscreen off and on.
+* F key toggles fullscreen off and on. (Does not work in Internet Explorer, it seems to be a limitation where scripts cannot request fullscreen without a mouse click)
 
 ## Usage
 Include the plugin:
