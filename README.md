@@ -7,36 +7,38 @@ A plugin for Video.js that enables keyboard hotkeys when the player has focus.
 * Up and Down Arrow keys increase and decrease the volume.
 * M key toggles mute/unmute.
 * F key toggles fullscreen off and on. (Does not work in Internet Explorer, it seems to be a limitation where scripts cannot request fullscreen without a mouse click)
+* Double-clicking with the mouse toggles fullscreen off and on.
 
 ## Usage
 Include the plugin:
 
 ### CDN version
 You can either load the current release:
-```
+```html
 <script src="//cdn.sc.gl/videojs-hotkeys/0.2/videojs.hotkeys.min.js"></script>
 ```
 Or always load the latest version:
-```
+```html
 <script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
 ```
 
 ### Self hosted
-```
+```html
 <script src="/path/to/videojs.hotkeys.js"></script>
 ```
 
 ### Enable the plugin
 Add hotkeys to your Videojs ready function.
-
-    videojs('vidId').ready(function() {
-      this.hotkeys({
-        volumeStep: 0.1,
-        seekStep: 5,
-        enableMute: true,
-        enableFullscreen: true
-      });
-    });
+```js
+videojs('vidId').ready(function() {
+  this.hotkeys({
+    volumeStep: 0.1,
+    seekStep: 5,
+    enableMute: true,
+    enableFullscreen: true
+  });
+});
+```
 
 ## Options
 
