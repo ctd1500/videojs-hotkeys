@@ -2,13 +2,14 @@
  * Video.js Hotkeys
  * https://github.com/ctd1500/videojs-hotkeys
  *
- * Copyright (c) 2014 Chris Dougherty
+ * Copyright (c) 2015 Chris Dougherty
  * Licensed under the Apache-2.0 license.
  */
 
 (function(window, videojs) {
   'use strict';
 
+  window['videojs_hotkeys'] = { version: "0.2.1" };
   var hotkeys = function(options) {
     var player = this;
     var def_options = {
@@ -19,9 +20,12 @@
     };
     options = options || {};
 
-    // Set default player tabindex to handle keydown events
+    // Set default player tabindex to handle keydown and doubleclick events
     if (!player.el().hasAttribute('tabIndex')) {
       player.el().setAttribute('tabIndex', '-1');
+    }
+    if (!player.el().querySelector('.vjs-control-bar').hasAttribute('tabIndex')) {
+      player.el().querySelector('.vjs-control-bar').setAttribute('tabIndex', '-1');
     }
 
     player.on('play', function() {
@@ -34,7 +38,7 @@
       }
     });
 
-    var keyDown = function(event) {
+    var keyDown = function keyDown(event) {
       var volumeStep = options.volumeStep || def_options.volumeStep;
       var seekStep = options.seekStep || def_options.seekStep;
       var enableMute = options.enableMute || def_options.enableMute;
@@ -89,9 +93,9 @@
           else if (event.which === 77) {
             if (enableMute) {
               if (player.muted()) {
-                console.log(player.muted(false));
+                player.muted(false);
               } else {
-                console.log(player.muted(true));
+                player.muted(true);
               }
             }
           }
@@ -110,7 +114,31 @@
       }
     };
 
+    var doubleClick = function doubleClick(event) {
+      var enableFull = options.enableFullscreen || def_options.enableFullscreen;
+
+      // When controls are disabled, hotkeys will be disabled as well
+      if (player.controls()) {
+
+        // Don't catch clicks if any control buttons are focused
+        var activeEl = document.activeElement;
+        if (activeEl == player.el() ||
+            activeEl == player.el().querySelector('.vjs-tech') ||
+            activeEl == player.el().querySelector('.iframeblocker')) {
+
+          if (enableFull) {
+            if (player.isFullscreen()) {
+              player.exitFullscreen();
+            } else {
+              player.requestFullscreen();
+            }
+          }
+        }
+      }
+    };
+
     player.on('keydown', keyDown);
+    player.on('dblclick', doubleClick);
 
     return this;
   };

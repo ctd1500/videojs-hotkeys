@@ -1,11 +1,12 @@
 module.exports = function(grunt) {
   var distName = 'videojs-hotkeys';
+  var baseName = 'videojs.hotkeys';
   var pkg = grunt.file.readJSON('package.json');
   var version = pkg.version;
 
   // Project configuration.
   grunt.initConfig({
-    baseName: 'videojs.hotkeys',
+    baseName: baseName,
     distName: distName,
     pkg: grunt.file.readJSON('package.json'),
     clean: {
@@ -61,7 +62,16 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-zip');
 
   // Default task.
-  grunt.registerTask('default', ['clean', 'copy:build', 'uglify', 'dist', 'cdn-link']);
+  grunt.registerTask('default', ['clean', 'buildver', 'copy:build', 'uglify', 'dist', 'cdn-link']);
+
+  grunt.registerTask('buildver', 'Update version', function() {
+    // version: "0.2"
+    var m = grunt.file.read(baseName + '.js');
+    var version = pkg.version;
+
+    m = m.replace(/(version: ")\d\.\d(\.\d)?(")/g, '$1' + version + '$3');
+    grunt.file.write(baseName + '.js', m);
+  });
 
   grunt.registerTask('dist', 'Creates distribution files', ['copy:dist', 'zip:dist']);
 
