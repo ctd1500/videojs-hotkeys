@@ -24,9 +24,6 @@
     if (!player.el().hasAttribute('tabIndex')) {
       player.el().setAttribute('tabIndex', '-1');
     }
-    if (!player.el().querySelector('.vjs-control-bar').hasAttribute('tabIndex')) {
-      player.el().querySelector('.vjs-control-bar').setAttribute('tabIndex', '-1');
-    }
 
     player.on('play', function() {
       // Fix allowing the YouTube plugin to have hotkey support.
@@ -121,7 +118,7 @@
       if (player.controls()) {
 
         // Don't catch clicks if any control buttons are focused
-        var activeEl = document.activeElement;
+        var activeEl = event.relatedTarget || event.toElement || document.activeElement;
         if (activeEl == player.el() ||
             activeEl == player.el().querySelector('.vjs-tech') ||
             activeEl == player.el().querySelector('.iframeblocker')) {
