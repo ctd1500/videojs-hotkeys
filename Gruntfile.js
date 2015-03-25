@@ -8,7 +8,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     baseName: baseName,
     distName: distName,
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: pkg,
     clean: {
       build: ['build/*'],
       dist: ['dist/*']
