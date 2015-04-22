@@ -16,7 +16,8 @@
       volumeStep: 0.1,
       seekStep: 5,
       enableMute: true,
-      enableFullscreen: true
+      enableFullscreen: true,
+      enableNumbers: true
     };
     options = options || {};
 
@@ -40,6 +41,7 @@
       var seekStep = options.seekStep || def_options.seekStep;
       var enableMute = options.enableMute || def_options.enableMute;
       var enableFull = options.enableFullscreen || def_options.enableFullscreen;
+      var enableNumbers = options.enableNumbers || def_options.enableNumbers;
 
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
@@ -107,6 +109,15 @@
               }
             }
           }
+
+          else if ([48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58].indexOf(event.which) > -1) {
+            if (enableNumbers){
+              var number = event.which - 48;
+              event.preventDefault();
+              player.currentTime(player.duration() * number * 0.1); 
+            }
+          }
+
         }
       }
     };

@@ -8,6 +8,7 @@ A plugin for Video.js that enables keyboard hotkeys when the player has focus.
 * M key toggles mute/unmute.
 * F key toggles fullscreen off and on. (Does not work in Internet Explorer, it seems to be a limitation where scripts cannot request fullscreen without a mouse click)
 * Double-clicking with the mouse toggles fullscreen off and on.
+* Number keys from 0-9 skip to a percentage of the video. 0 is 0% and 9 is 90%.
 
 ## Usage
 Include the plugin:
@@ -35,7 +36,8 @@ videojs('vidId').ready(function() {
     volumeStep: 0.1,
     seekStep: 5,
     enableMute: true,
-    enableFullscreen: true
+    enableFullscreen: true,
+    enableNumbers: true
   });
 });
 ```
@@ -46,3 +48,4 @@ videojs('vidId').ready(function() {
 - `seekStep` (integer): The number of seconds to seek forward and backwards when using the Right and Left Arrow keys (default: `5`)
 - `enableMute` (boolean): Enables the volume mute to be toggle by pressing the **M** key (default: `true`)
 - `enableFullscreen` (boolean): Enables toggling the video fullscreen by pressing the **F** key (default: `true`)
+- `enableNumbers` (boolean): Enables seeking the video by pressing the number keys (default `true`)
