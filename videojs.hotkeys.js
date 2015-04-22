@@ -37,6 +37,7 @@
     });
 
     var keyDown = function keyDown(event) {
+      var ewhich = event.which;
       var volumeStep = options.volumeStep || def_options.volumeStep;
       var seekStep = options.seekStep || def_options.seekStep;
       var enableMute = options.enableMute || def_options.enableMute;
@@ -54,7 +55,7 @@
             activeEl == player.el().querySelector('.iframeblocker')) {
 
           // Spacebar toggles play/pause
-          if (event.which === 32) {
+          if (ewhich === 32) {
             event.preventDefault();
             if (player.paused()) {
               player.play();
@@ -64,7 +65,7 @@
           }
 
           // Seeking with the left/right arrow keys
-          else if (event.which === 37) { // Left Arrow
+          else if (ewhich === 37) { // Left Arrow
             event.preventDefault();
             var curTime = player.currentTime() - seekStep;
 
@@ -74,22 +75,22 @@
               curTime = 0;
             }
             player.currentTime(curTime);
-          } else if (event.which === 39) { // Right Arrow
+          } else if (ewhich === 39) { // Right Arrow
             event.preventDefault();
             player.currentTime(player.currentTime() + seekStep);
           }
 
           // Volume control with the up/down arrow keys
-          else if (event.which === 40) { // Down Arrow
+          else if (ewhich === 40) { // Down Arrow
             event.preventDefault();
             player.volume(player.volume() - volumeStep);
-          } else if (event.which === 38) { // Up Arrow
+          } else if (ewhich === 38) { // Up Arrow
             event.preventDefault();
             player.volume(player.volume() + volumeStep);
           }
 
           // Toggle Mute with the M key
-          else if (event.which === 77) {
+          else if (ewhich === 77) {
             if (enableMute) {
               if (player.muted()) {
                 player.muted(false);
@@ -100,7 +101,7 @@
           }
 
           // Toggle Fullscreen with the F key
-          else if (event.which === 70) {
+          else if (ewhich === 70) {
             if (enableFull) {
               if (player.isFullscreen()) {
                 player.exitFullscreen();
@@ -111,14 +112,13 @@
           }
 
           // Number keys from 0-9 skip to a percentage of the video. 0 is 0% and 9 is 90%
-          else if ([48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
-                    96, 97, 98, 99, 100, 101, 102, 103, 104, 105].indexOf(event.which) > -1) {
+          else if ((ewhich > 47 && ewhich < 59) || (ewhich > 95 && ewhich < 106)) {
             if (enableNumbers) {
               var sub = 48;
-              if (event.which >= 96) {
+              if (ewhich > 95) {
                 sub = 96;
               }
-              var number = event.which - sub;
+              var number = ewhich - sub;
               event.preventDefault();
               player.currentTime(player.duration() * number * 0.1);
             }
