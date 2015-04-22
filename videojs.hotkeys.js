@@ -110,11 +110,17 @@
             }
           }
 
-          else if ([48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58].indexOf(event.which) > -1) {
-            if (enableNumbers){
-              var number = event.which - 48;
+          // Number keys from 0-9 skip to a percentage of the video. 0 is 0% and 9 is 90%
+          else if ([48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58,
+                    96, 97, 98, 99, 100, 101, 102, 103, 104, 105].indexOf(event.which) > -1) {
+            if (enableNumbers) {
+              var sub = 48;
+              if (event.which >= 96) {
+                sub = 96;
+              }
+              var number = event.which - sub;
               event.preventDefault();
-              player.currentTime(player.duration() * number * 0.1); 
+              player.currentTime(player.duration() * number * 0.1);
             }
           }
 
