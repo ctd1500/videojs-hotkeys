@@ -14,16 +14,27 @@ module.exports = function(grunt) {
       dist: ['dist/*']
     },
     uglify: {
-      options: {
-        banner: '/* <%= pkg.name %> v<%= pkg.version %> - <%= pkg.homepage %> */',
-        mangle: true,
-        compress: true,
-        sourceMap: true,
-        sourceMapName: 'build/<%= baseName %>.min.js.map'
+      dist: {
+        options: {
+          banner: '/* <%= pkg.name %> v<%= pkg.version %> - <%= pkg.homepage %> */',
+          mangle: true,
+          compress: true,
+          sourceMap: true,
+          sourceMapName: 'build/<%= baseName %>.min.js.map'
+        },
+        files: {
+          'build/<%= baseName %>.min.js': ['build/<%= baseName %>.js']
+        }
       },
-      build: {
-        src: 'build/<%= baseName %>.js',
-        dest: 'build/<%= baseName %>.min.js'
+      minify: {
+        options: {
+          banner: '/* <%= pkg.name %> v<%= pkg.version %> - <%= pkg.homepage %> */\n',
+          mangle: true,
+          compress: true
+        },
+        files: {
+          '<%= baseName %>.min.js': ['<%= baseName %>.js']
+        }
       }
     },
     copy: {
@@ -62,7 +73,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-zip');
 
   // Default task.
-  grunt.registerTask('default', ['clean', 'buildver', 'copy:build', 'uglify', 'dist', 'cdn-link']);
+  grunt.registerTask('default', ['clean', 'buildver', 'copy:build', 'uglify:dist', 'dist', 'uglify:minify', 'cdn-link']);
 
   grunt.registerTask('buildver', 'Update version', function() {
     // version: "0.2"
