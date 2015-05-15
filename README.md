@@ -10,6 +10,10 @@ A plugin for Video.js that enables keyboard hotkeys when the player has focus.
 * Double-clicking with the mouse toggles fullscreen off and on.
 * Number keys from 0-9 skip to a percentage of the video. 0 is 0% and 9 is 90%.
 
+**Note: clicking any of the control buttons such as Play/Pause, Fullscreen, or Mute, will remove focus on the player which appears to "break" the hotkeys.  This is for accessibility reasons so that people who do not use or know about the hotkeys can still properly use the `Tab` key to highlight the control buttons and space to toggle them.**
+
+**To restore focus, just click on the video, or an empty part of the control bar at the bottom of the video player.**
+
 ## Usage
 Include the plugin:
 
