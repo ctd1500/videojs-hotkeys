@@ -13,6 +13,7 @@ A plugin for Video.js that enables keyboard hotkeys when the player has focus.
 **Note: clicking any of the control buttons such as Play/Pause, Fullscreen, or Mute, will remove focus on the player which appears to "break" the hotkeys.  This is for accessibility reasons so that people who do not use or know about the hotkeys can still properly use the `Tab` key to highlight the control buttons and space to toggle them.**
 
 **To restore focus, just click on the video, or an empty part of the control bar at the bottom of the video player.**
+![Empty control bar space](http://i.imgur.com/18WMTUw.png)
 
 ## Usage
 Include the plugin:
