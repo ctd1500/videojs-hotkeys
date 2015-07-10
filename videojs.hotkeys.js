@@ -17,7 +17,8 @@
       seekStep: 5,
       enableMute: true,
       enableFullscreen: true,
-      enableNumbers: true
+      enableNumbers: true,
+      enableJogStyle: false
     };
     options = options || {};
     var volumeStep = options.volumeStep || def_options.volumeStep;
@@ -25,6 +26,7 @@
     var enableMute = options.enableMute || def_options.enableMute;
     var enableFull = options.enableFullscreen || def_options.enableFullscreen;
     var enableNumbers = options.enableNumbers || def_options.enableNumbers;
+    var enableJogStyle = options.enableJogStyle || def_options.enableJogStyle;
 
     // Set default player tabindex to handle keydown and doubleclick events
     if (!player.el().hasAttribute('tabIndex')) {
@@ -44,27 +46,30 @@
     var keyDown = function keyDown(event) {
 
       var ewhich = event.which;
-
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
 
-        // Don't catch keys if any control buttons are focused
-        var activeEl = document.activeElement;
-        if (activeEl == player.el() ||
+        // Don't catch keys if any control buttons are focused, unless in jogStyle mode
+          var activeEl = document.activeElement;
+          var hotFocused = activeEl == player.el() ||
             activeEl == player.el().querySelector('.vjs-tech') ||
             activeEl == player.el().querySelector('.vjs-control-bar') ||
-            activeEl == player.el().querySelector('.iframeblocker')) {
+            activeEl == player.el().querySelector('.iframeblocker');
+
+        if (enableJogStyle || hotFocused) {
 
           switch (ewhich) {
 
             // Spacebar toggles play/pause
-            case 32:
-              event.preventDefault();
-              if (player.paused()) {
-                player.play();
-              } else {
-                player.pause();
-              }
+              case 32:
+                  if (hotFocused) { //the event is handled by videoJS
+                      event.preventDefault();
+                      if (player.paused()) {
+                          player.play();
+                      } else {
+                          player.pause();
+                      }
+                  }
               break;
 
             // Seeking with the left/right arrow keys
@@ -86,11 +91,25 @@
             // Volume control with the up/down arrow keys
             case 40: // Down Arrow
               event.preventDefault();
-              player.volume(player.volume() - volumeStep);
+              if (!enableJogStyle)
+                  player.volume(player.volume() - volumeStep);
+              else {
+                  var curTime = player.currentTime() - 1;
+                  // The flash player tech will allow you to seek into negative
+                  // numbers and break the seekbar, so try to prevent that.
+                  if (player.currentTime() <= 1) {
+                      curTime = 0;
+                  }
+                  player.currentTime(curTime);
+              }
+
               break;
             case 38: // Up Arrow
-              event.preventDefault();
-              player.volume(player.volume() + volumeStep);
+                event.preventDefault();
+                if (!enableJogStyle)
+                    player.volume(player.volume() + volumeStep);
+                else
+                    player.currentTime(player.currentTime() + 1);
               break;
 
             // Toggle Mute with the M key
@@ -155,8 +174,11 @@
       }
     };
 
+
     player.on('keydown', keyDown);
     player.on('dblclick', doubleClick);
+
+    
 
     return this;
   };
