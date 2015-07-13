@@ -1,5 +1,4 @@
 module.exports = function(grunt) {
-  var distName = 'videojs-hotkeys';
   var baseName = 'videojs.hotkeys';
   var pkg = grunt.file.readJSON('package.json');
   var version = pkg.version;
@@ -7,7 +6,6 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     baseName: baseName,
-    distName: distName,
     pkg: pkg,
     clean: {
       build: ['build/*'],
@@ -76,7 +74,6 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['clean', 'buildver', 'copy:build', 'uglify:dist', 'dist', 'uglify:minify', 'cdn-link']);
 
   grunt.registerTask('buildver', 'Update version', function() {
-    // version: "0.2"
     var m = grunt.file.read(baseName + '.js');
     var version = pkg.version;
 
