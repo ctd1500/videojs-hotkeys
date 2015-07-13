@@ -35,6 +35,7 @@
 
     player.on('play', function() {
       // Fix allowing the YouTube plugin to have hotkey support.
+
       var ifblocker = player.el().querySelector('.iframeblocker');
       if (ifblocker &&
           ifblocker.style.display == "") {
@@ -45,37 +46,33 @@
 
     var keyDown = function keyDown(event) {
 
-      var ewhich = event.which;
+      var ewhich = event.which, curTime;
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
 
         // Don't catch keys if any control buttons are focused, unless in jogStyle mode
-          var activeEl = document.activeElement;
-          var hotFocused = activeEl == player.el() ||
+        var activeEl = document.activeElement;
+        if (activeEl == player.el() ||
             activeEl == player.el().querySelector('.vjs-tech') ||
             activeEl == player.el().querySelector('.vjs-control-bar') ||
-            activeEl == player.el().querySelector('.iframeblocker');
-
-        if (enableJogStyle || hotFocused) {
+            activeEl == player.el().querySelector('.iframeblocker')) {
 
           switch (ewhich) {
 
             // Spacebar toggles play/pause
-              case 32:
-                  if (hotFocused) { //the event is handled by videoJS
-                      event.preventDefault();
-                      if (player.paused()) {
-                          player.play();
-                      } else {
-                          player.pause();
-                      }
-                  }
+            case 32:
+              event.preventDefault();
+              if (player.paused()) {
+                player.play();
+              } else {
+                player.pause();
+              }
               break;
 
             // Seeking with the left/right arrow keys
             case 37: // Left Arrow
               event.preventDefault();
-              var curTime = player.currentTime() - seekStep;
+              curTime = player.currentTime() - seekStep;
               // The flash player tech will allow you to seek into negative
               // numbers and break the seekbar, so try to prevent that.
               if (player.currentTime() <= seekStep) {
@@ -91,25 +88,23 @@
             // Volume control with the up/down arrow keys
             case 40: // Down Arrow
               event.preventDefault();
-              if (!enableJogStyle)
-                  player.volume(player.volume() - volumeStep);
-              else {
-                  var curTime = player.currentTime() - 1;
-                  // The flash player tech will allow you to seek into negative
-                  // numbers and break the seekbar, so try to prevent that.
-                  if (player.currentTime() <= 1) {
-                      curTime = 0;
-                  }
-                  player.currentTime(curTime);
+              if (!enableJogStyle) {
+                player.volume(player.volume() - volumeStep);
+              } else {
+                curTime = player.currentTime() - 1;
+                if (player.currentTime() <= 1) {
+                  curTime = 0;
+                }
+                player.currentTime(curTime);
               }
-
               break;
             case 38: // Up Arrow
-                event.preventDefault();
-                if (!enableJogStyle)
-                    player.volume(player.volume() + volumeStep);
-                else
-                    player.currentTime(player.currentTime() + 1);
+              event.preventDefault();
+              if (!enableJogStyle) {
+                player.volume(player.volume() + volumeStep);
+              } else {
+                player.currentTime(player.currentTime() + 1);
+              }
               break;
 
             // Toggle Mute with the M key
@@ -174,11 +169,8 @@
       }
     };
 
-
     player.on('keydown', keyDown);
     player.on('dblclick', doubleClick);
-
-    
 
     return this;
   };
