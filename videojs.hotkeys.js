@@ -10,6 +10,21 @@
   'use strict';
 
   window['videojs_hotkeys'] = { version: "0.2.5" };
+
+  // Copies properties from one or more objects onto an original.
+  var extend = function(obj /*, arg1, arg2, ... */ ) {
+    var arg, i, k;
+    for (i = 1; i < arguments.length; i++) {
+      arg = arguments[i];
+      for (k in arg) {
+        if (arg.hasOwnProperty(k)) {
+          obj[k] = arg[k];
+        }
+      }
+    }
+    return obj;
+  };
+
   var hotkeys = function(options) {
     var player = this;
     var def_options = {
@@ -20,13 +35,15 @@
       enableNumbers: true,
       enableJogStyle: false
     };
-    options = options || {};
-    var volumeStep = options.volumeStep || def_options.volumeStep;
-    var seekStep = options.seekStep || def_options.seekStep;
-    var enableMute = options.enableMute || def_options.enableMute;
-    var enableFull = options.enableFullscreen || def_options.enableFullscreen;
-    var enableNumbers = options.enableNumbers || def_options.enableNumbers;
-    var enableJogStyle = options.enableJogStyle || def_options.enableJogStyle;
+
+    options = extend({}, def_options, options || {});
+
+    var volumeStep = options.volumeStep;
+    var seekStep = options.seekStep;
+    var enableMute = options.enableMute;
+    var enableFull = options.enableFullscreen;
+    var enableNumbers = options.enableNumbers;
+    var enableJogStyle = options.enableJogStyle;
 
     // Set default player tabindex to handle keydown and doubleclick events
     if (!player.el().hasAttribute('tabIndex')) {
@@ -37,8 +54,7 @@
       // Fix allowing the YouTube plugin to have hotkey support.
 
       var ifblocker = player.el().querySelector('.iframeblocker');
-      if (ifblocker &&
-          ifblocker.style.display == "") {
+      if (ifblocker && ifblocker.style.display === '') {
         ifblocker.style.display = "block";
         ifblocker.style.bottom = "39px";
       }
