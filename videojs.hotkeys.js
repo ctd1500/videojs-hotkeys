@@ -9,7 +9,7 @@
 (function(window, videojs) {
   'use strict';
 
-  window['videojs_hotkeys'] = { version: "0.2.5" };
+  window['videojs_hotkeys'] = { version: "0.2.6" };
 
   // Copies properties from one or more objects onto an original.
   var extend = function(obj /*, arg1, arg2, ... */ ) {
