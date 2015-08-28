@@ -2,6 +2,7 @@
   "name": "videojs-hotkeys",
   "version": "0.2.6",
   "description": "Adds more hotkey support to video.js",
+  "main": "videojs.hotkeys.min.js",
   "author": "Chris Dougherty",
   "license": "Apache-2.0",
   "private": true,
