@@ -33,7 +33,8 @@
       enableMute: true,
       enableFullscreen: true,
       enableNumbers: true,
-      enableJogStyle: false
+      enableJogStyle: false,
+      alwaysCaptureHotkeys: false
     };
 
     options = extend({}, def_options, options || {});
@@ -44,10 +45,17 @@
     var enableFull = options.enableFullscreen;
     var enableNumbers = options.enableNumbers;
     var enableJogStyle = options.enableJogStyle;
+    var alwaysCaptureHotkeys = options.alwaysCaptureHotkeys;
 
     // Set default player tabindex to handle keydown and doubleclick events
     if (!player.el().hasAttribute('tabIndex')) {
       player.el().setAttribute('tabIndex', '-1');
+    }
+
+    if (alwaysCaptureHotkeys) {
+      player.one('play', function() {
+        player.el().focus() // Fixes the .vjs-big-play-button handing focus back to body instead of the player
+      });
     }
 
     player.on('play', function() {
@@ -66,9 +74,10 @@
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
 
-        // Don't catch keys if any control buttons are focused, unless in jogStyle mode
+        // Don't catch keys if any control buttons are focused, unless alwaysCaptureHotkeys is true
         var activeEl = document.activeElement;
-        if (activeEl == player.el() ||
+        if (alwaysCaptureHotkeys ||
+            activeEl == player.el() ||
             activeEl == player.el().querySelector('.vjs-tech') ||
             activeEl == player.el().querySelector('.vjs-control-bar') ||
             activeEl == player.el().querySelector('.iframeblocker')) {
@@ -78,6 +87,8 @@
             // Spacebar toggles play/pause
             case 32:
               event.preventDefault();
+              if (alwaysCaptureHotkeys) event.stopPropagation(); // Prevent control activation with space
+
               if (player.paused()) {
                 player.play();
               } else {
