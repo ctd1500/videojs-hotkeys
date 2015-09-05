@@ -54,7 +54,7 @@
 
     if (alwaysCaptureHotkeys) {
       player.one('play', function() {
-        player.el().focus() // Fixes the .vjs-big-play-button handing focus back to body instead of the player
+        player.el().focus(); // Fixes the .vjs-big-play-button handing focus back to body instead of the player
       });
     }
 
@@ -87,7 +87,10 @@
             // Spacebar toggles play/pause
             case 32:
               event.preventDefault();
-              if (alwaysCaptureHotkeys) event.stopPropagation(); // Prevent control activation with space
+              if (alwaysCaptureHotkeys) {
+                // Prevent control activation with space
+                event.stopPropagation();
+              }
 
               if (player.paused()) {
                 player.play();
