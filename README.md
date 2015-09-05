@@ -17,6 +17,9 @@ the hotkeys can still properly use the `Tab` key to highlight the control button
 
 **To restore focus, just click on the video, or an empty part of the control bar at the bottom of the video player.**
 
+**To override this behaviour, set the flag `alwaysCaptureHotkeys` to `true`.
+This will "fix" hotkeys. For accessibility, the `Tab` key may be used in combination with the `Enter`/`Return` to navigate and active control buttons.**
+
 ![Empty control bar space](http://i.imgur.com/18WMTUw.png)
 
 ## Usage
@@ -58,6 +61,8 @@ videojs('vidId').ready(function() {
 - `enableMute` (boolean): Enables the volume mute to be toggle by pressing the **M** key (default: `true`)
 - `enableFullscreen` (boolean): Enables toggling the video fullscreen by pressing the **F** key (default: `true`)
 - `enableNumbers` (boolean): Enables seeking the video by pressing the number keys (default `true`)
+- `alwaysCaptureHotkeys` (boolean): Forces the capture of hotkeys, even when control elements are focused.
+The **ENTER**/**RETURN** key may be used instead to activate the control elements (default: `false`)
 - `enableJogStyle` (boolean): Enables seeking the video in a broadcast-style jog by pressing the Up and Down Arrow keys.
 `seekStep` will also need to be changed to get a proper broadcast-style jog.
 This feature and the changes for seekStep are explained a bit more in [PR #12](https://github.com/ctd1500/videojs-hotkeys/pull/12) (default `false`)
