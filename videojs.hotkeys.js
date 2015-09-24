@@ -11,20 +11,6 @@
 
   window['videojs_hotkeys'] = { version: "0.2.7" };
 
-  // Copies properties from one or more objects onto an original.
-  var extend = function(obj /*, arg1, arg2, ... */ ) {
-    var arg, i, k;
-    for (i = 1; i < arguments.length; i++) {
-      arg = arguments[i];
-      for (k in arg) {
-        if (arg.hasOwnProperty(k)) {
-          obj[k] = arg[k];
-        }
-      }
-    }
-    return obj;
-  };
-
   var hotkeys = function(options) {
     var player = this;
     var def_options = {
@@ -37,7 +23,7 @@
       alwaysCaptureHotkeys: false
     };
 
-    options = extend({}, def_options, options || {});
+    options = videojs.util.mergeOptions(def_options, options || {});
 
     var volumeStep = options.volumeStep;
     var seekStep = options.seekStep;
