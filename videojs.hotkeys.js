@@ -23,7 +23,9 @@
       alwaysCaptureHotkeys: false
     };
 
-    options = videojs.util.mergeOptions(def_options, options || {});
+    // Use built-in merge function from Video.js v5.0+ or v4.4.0+
+    var mergeOptions = videojs.mergeOptions || videojs.util.mergeOptions;
+    options = mergeOptions(def_options, options || {});
 
     var volumeStep = options.volumeStep;
     var seekStep = options.seekStep;
@@ -46,7 +48,6 @@
 
     player.on('play', function() {
       // Fix allowing the YouTube plugin to have hotkey support.
-
       var ifblocker = player.el().querySelector('.iframeblocker');
       if (ifblocker && ifblocker.style.display === '') {
         ifblocker.style.display = "block";
