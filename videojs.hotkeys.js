@@ -13,37 +13,31 @@
 
   var hotkeys = function(options) {
     var player = this;
-    var pQuerySlector = player.el().querySelector;
+    var pEl = player.el();
 
     var playPauseKey = function(e) {
       return (e.which === 32);
     };
-
     var rewindKey = function(e) {
       // Left Arrow
       return (e.which === 37);
     };
-
     var forwardKey = function(e) {
       // Right Arrow
       return (e.which === 39);
     };
-
     var volumeUpKey = function(e) {
       // Up Arrow
       return (e.which === 38);
     };
-
     var volumeDownKey = function(e) {
       // Down Arrow
       return (e.which === 40);
     };
-
     var muteKey = function(e) {
       // M key
       return (e.which === 77);
     };
-
     var fullscreenKey = function(e) {
       // F key
       return (e.which === 70);
@@ -79,19 +73,19 @@
     var alwaysCaptureHotkeys = options.alwaysCaptureHotkeys;
 
     // Set default player tabindex to handle keydown and doubleclick events
-    if (!player.el().hasAttribute('tabIndex')) {
-      player.el().setAttribute('tabIndex', '-1');
+    if (!pEl.hasAttribute('tabIndex')) {
+      pEl.setAttribute('tabIndex', '-1');
     }
 
     if (alwaysCaptureHotkeys) {
       player.one('play', function() {
-        player.el().focus(); // Fixes the .vjs-big-play-button handing focus back to body instead of the player
+        pEl.focus(); // Fixes the .vjs-big-play-button handing focus back to body instead of the player
       });
     }
 
     player.on('play', function() {
       // Fix allowing the YouTube plugin to have hotkey support.
-      var ifblocker = player.el().querySelector('.iframeblocker');
+      var ifblocker = pEl.querySelector('.iframeblocker');
       if (ifblocker && ifblocker.style.display === '') {
         ifblocker.style.display = "block";
         ifblocker.style.bottom = "39px";
@@ -108,10 +102,10 @@
         // Don't catch keys if any control buttons are focused, unless alwaysCaptureHotkeys is true
         var activeEl = document.activeElement;
         if (alwaysCaptureHotkeys ||
-            activeEl == player.el() ||
-            activeEl == pQuerySlector('.vjs-tech') ||
-            activeEl == pQuerySlector('.vjs-control-bar') ||
-            activeEl == pQuerySlector('.iframeblocker')) {
+            activeEl == pEl ||
+            activeEl == pEl.querySelector('.vjs-tech') ||
+            activeEl == pEl.querySelector('.vjs-control-bar') ||
+            activeEl == pEl.querySelector('.iframeblocker')) {
 
           switch (checkKeys(event)) {
 
@@ -215,9 +209,9 @@
 
         // Don't catch clicks if any control buttons are focused
         var activeEl = event.relatedTarget || event.toElement || document.activeElement;
-        if (activeEl == player.el() ||
-            activeEl == pQuerySlector('.vjs-tech') ||
-            activeEl == pQuerySlector('.iframeblocker')) {
+        if (activeEl == pEl ||
+            activeEl == pEl.querySelector('.vjs-tech') ||
+            activeEl == pEl.querySelector('.iframeblocker')) {
 
           if (enableFull) {
             if (player.isFullscreen()) {
