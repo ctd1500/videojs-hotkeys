@@ -14,35 +14,6 @@
   var hotkeys = function(options) {
     var player = this;
     var pEl = player.el();
-
-    var playPauseKey = function(e) {
-      return (e.which === 32);
-    };
-    var rewindKey = function(e) {
-      // Left Arrow
-      return (e.which === 37);
-    };
-    var forwardKey = function(e) {
-      // Right Arrow
-      return (e.which === 39);
-    };
-    var volumeUpKey = function(e) {
-      // Up Arrow
-      return (e.which === 38);
-    };
-    var volumeDownKey = function(e) {
-      // Down Arrow
-      return (e.which === 40);
-    };
-    var muteKey = function(e) {
-      // M key
-      return (e.which === 77);
-    };
-    var fullscreenKey = function(e) {
-      // F key
-      return (e.which === 70);
-    };
-
     var def_options = {
       volumeStep: 0.1,
       seekStep: 5,
@@ -262,6 +233,35 @@
         return "fullscreen";
       }
     };
+
+    function playPauseKey(e) {
+      // Space bar
+      return (e.which === 32);
+    }
+    function rewindKey(e) {
+      // Left Arrow
+      return (e.which === 37);
+    }
+    function forwardKey(e) {
+      // Right Arrow
+      return (e.which === 39);
+    }
+    function volumeUpKey(e) {
+      // Up Arrow
+      return (e.which === 38);
+    }
+    function volumeDownKey(e) {
+      // Down Arrow
+      return (e.which === 40);
+    }
+    function muteKey(e) {
+      // M key
+      return (e.which === 77);
+    }
+    function fullscreenKey(e) {
+      // F key
+      return (e.which === 70);
+    }
 
     player.on('keydown', keyDown);
     player.on('dblclick', doubleClick);
