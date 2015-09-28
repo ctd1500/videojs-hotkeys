@@ -13,6 +13,42 @@
 
   var hotkeys = function(options) {
     var player = this;
+    var pQuerySlector = player.el().querySelector;
+
+    var playPauseKey = function(e) {
+      return (e.which === 32);
+    };
+
+    var rewindKey = function(e) {
+      // Left Arrow
+      return (e.which === 37);
+    };
+
+    var forwardKey = function(e) {
+      // Right Arrow
+      return (e.which === 39);
+    };
+
+    var volumeUpKey = function(e) {
+      // Up Arrow
+      return (e.which === 38);
+    };
+
+    var volumeDownKey = function(e) {
+      // Down Arrow
+      return (e.which === 40);
+    };
+
+    var muteKey = function(e) {
+      // M key
+      return (e.which === 77);
+    };
+
+    var fullscreenKey = function(e) {
+      // F key
+      return (e.which === 70);
+    };
+
     var def_options = {
       volumeStep: 0.1,
       seekStep: 5,
@@ -20,7 +56,14 @@
       enableFullscreen: true,
       enableNumbers: true,
       enableJogStyle: false,
-      alwaysCaptureHotkeys: false
+      alwaysCaptureHotkeys: false,
+      playPauseKey: playPauseKey,
+      rewindKey: rewindKey,
+      forwardKey: forwardKey,
+      volumeUpKey: volumeUpKey,
+      volumeDownKey: volumeDownKey,
+      muteKey: muteKey,
+      fullscreenKey: fullscreenKey
     };
 
     // Use built-in merge function from Video.js v5.0+ or v4.4.0+
@@ -58,6 +101,7 @@
     var keyDown = function keyDown(event) {
 
       var ewhich = event.which, curTime;
+      var ePreventDefault = event.preventDefault;
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
 
@@ -65,15 +109,15 @@
         var activeEl = document.activeElement;
         if (alwaysCaptureHotkeys ||
             activeEl == player.el() ||
-            activeEl == player.el().querySelector('.vjs-tech') ||
-            activeEl == player.el().querySelector('.vjs-control-bar') ||
-            activeEl == player.el().querySelector('.iframeblocker')) {
+            activeEl == pQuerySlector('.vjs-tech') ||
+            activeEl == pQuerySlector('.vjs-control-bar') ||
+            activeEl == pQuerySlector('.iframeblocker')) {
 
-          switch (ewhich) {
+          switch (checkKeys(event)) {
 
             // Spacebar toggles play/pause
-            case 32:
-              event.preventDefault();
+            case "play":
+              ePreventDefault();
               if (alwaysCaptureHotkeys) {
                 // Prevent control activation with space
                 event.stopPropagation();
@@ -87,8 +131,8 @@
               break;
 
             // Seeking with the left/right arrow keys
-            case 37: // Left Arrow
-              event.preventDefault();
+            case "rewind": // Seek Backward
+              ePreventDefault();
               curTime = player.currentTime() - seekStep;
               // The flash player tech will allow you to seek into negative
               // numbers and break the seekbar, so try to prevent that.
@@ -97,14 +141,14 @@
               }
               player.currentTime(curTime);
               break;
-            case 39: // Right Arrow
-              event.preventDefault();
+            case "forward": // Seek Forward
+              ePreventDefault();
               player.currentTime(player.currentTime() + seekStep);
               break;
 
             // Volume control with the up/down arrow keys
-            case 40: // Down Arrow
-              event.preventDefault();
+            case "volumeDown":
+              ePreventDefault();
               if (!enableJogStyle) {
                 player.volume(player.volume() - volumeStep);
               } else {
@@ -115,8 +159,8 @@
                 player.currentTime(curTime);
               }
               break;
-            case 38: // Up Arrow
-              event.preventDefault();
+            case "volumeUp":
+              ePreventDefault();
               if (!enableJogStyle) {
                 player.volume(player.volume() + volumeStep);
               } else {
@@ -125,7 +169,7 @@
               break;
 
             // Toggle Mute with the M key
-            case 77:
+            case "mute":
               if (enableMute) {
                 if (player.muted()) {
                   player.muted(false);
@@ -136,7 +180,7 @@
               break;
 
             // Toggle Fullscreen with the F key
-            case  70:
+            case  "fullscreen":
               if (enableFull) {
                 if (player.isFullscreen()) {
                   player.exitFullscreen();
@@ -155,7 +199,7 @@
                     sub = 96;
                   }
                   var number = ewhich - sub;
-                  event.preventDefault();
+                  ePreventDefault();
                   player.currentTime(player.duration() * number * 0.1);
                 }
               }
@@ -172,8 +216,8 @@
         // Don't catch clicks if any control buttons are focused
         var activeEl = event.relatedTarget || event.toElement || document.activeElement;
         if (activeEl == player.el() ||
-            activeEl == player.el().querySelector('.vjs-tech') ||
-            activeEl == player.el().querySelector('.iframeblocker')) {
+            activeEl == pQuerySlector('.vjs-tech') ||
+            activeEl == pQuerySlector('.iframeblocker')) {
 
           if (enableFull) {
             if (player.isFullscreen()) {
@@ -183,6 +227,45 @@
             }
           }
         }
+      }
+    };
+
+    var checkKeys = function checkKeys(e) {
+      // Allow some modularity in defining custom hotkeys
+
+      // Play/Pause check
+      if (options.playPauseKey(e)) {
+        return "play";
+      }
+
+      // Seek Backward check
+      if (options.rewindKey(e)) {
+        return "rewind";
+      }
+
+      // Seek Forward check
+      if (options.forwardKey(e)) {
+        return "forward";
+      }
+
+      // Volume Up check
+      if (options.volumeUpKey(e)) {
+        return "volumeUp";
+      }
+
+      // Volume Down check
+      if (options.volumeDownKey(e)) {
+        return "volumeDown";
+      }
+
+      // Mute check
+      if (options.muteKey(e)) {
+        return "mute";
+      }
+
+      // Fullscreen check
+      if (options.fullscreenKey(e)) {
+        return "fullscreen";
       }
     };
 
