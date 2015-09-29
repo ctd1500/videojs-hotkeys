@@ -78,7 +78,7 @@
             activeEl == pEl.querySelector('.vjs-control-bar') ||
             activeEl == pEl.querySelector('.iframeblocker')) {
 
-          switch (checkKeys(event)) {
+          switch (checkKeys(event, player)) {
 
             // Spacebar toggles play/pause
             case "play":
@@ -195,41 +195,41 @@
       }
     };
 
-    var checkKeys = function checkKeys(e) {
+    var checkKeys = function checkKeys(e, player) {
       // Allow some modularity in defining custom hotkeys
 
       // Play/Pause check
-      if (options.playPauseKey(e)) {
+      if (options.playPauseKey(e, player)) {
         return "play";
       }
 
       // Seek Backward check
-      if (options.rewindKey(e)) {
+      if (options.rewindKey(e, player)) {
         return "rewind";
       }
 
       // Seek Forward check
-      if (options.forwardKey(e)) {
+      if (options.forwardKey(e, player)) {
         return "forward";
       }
 
       // Volume Up check
-      if (options.volumeUpKey(e)) {
+      if (options.volumeUpKey(e, player)) {
         return "volumeUp";
       }
 
       // Volume Down check
-      if (options.volumeDownKey(e)) {
+      if (options.volumeDownKey(e, player)) {
         return "volumeDown";
       }
 
       // Mute check
-      if (options.muteKey(e)) {
+      if (options.muteKey(e, player)) {
         return "mute";
       }
 
       // Fullscreen check
-      if (options.fullscreenKey(e)) {
+      if (options.fullscreenKey(e, player)) {
         return "fullscreen";
       }
     };
