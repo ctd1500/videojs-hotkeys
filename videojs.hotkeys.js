@@ -165,6 +165,19 @@
                   player.currentTime(player.duration() * number * 0.1);
                 }
               }
+
+              // Handle any custom hotkeys
+              for (var customKey in options.customKeys) {
+                var customHotkey = options.customKeys[customKey];
+                // Check for well formed custom keys
+                if (customHotkey && customHotkey.key && customHotkey.handler) {
+                  // Check if the custom key's condition matches
+                  if (customHotkey.key(event)) {
+                    ePreventDefault();
+                    customHotkey.handler(player, options);
+                  }
+                }
+              }
           }
         }
       }
@@ -260,39 +273,7 @@
       return (e.which === 70);
     }
 
-    function customHotkeys(event) {
-      var ePreventDefault = event.preventDefault;
-      // When controls are disabled, hotkeys will be disabled as well
-      if (player.controls()) {
-
-        // Don't catch keys if any control buttons are focused, unless alwaysCaptureHotkeys is true
-        var activeEl = document.activeElement;
-        if (alwaysCaptureHotkeys ||
-            activeEl == pEl ||
-            activeEl == pEl.querySelector('.vjs-tech') ||
-            activeEl == pEl.querySelector('.vjs-control-bar') ||
-            activeEl == pEl.querySelector('.iframeblocker')) {
-
-          for (var customKey in options.customKeys) {
-            var customHotkey = options.customKeys[customKey];
-
-            // Check well formed custom keys
-            if (customHotkey && customHotkey.key && customHotkey.handler) {
-
-              // Check if the custom key's condition matches
-              if (customHotkey.key(event)) {
-                ePreventDefault();
-                customHotkey.handler(player, options);
-              }
-            }
-          }
-
-        }
-      }
-    }
-
     player.on('keydown', keyDown);
-    player.on('keydown', customHotkeys);
     player.on('dblclick', doubleClick);
 
     return this;
