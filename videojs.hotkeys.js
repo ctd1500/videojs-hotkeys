@@ -137,11 +137,7 @@
             // Toggle Mute with the M key
             case 'mute':
               if (enableMute) {
-                if (player.muted()) {
-                  player.muted(false);
-                } else {
-                  player.muted(true);
-                }
+                player.muted(!player.muted());
               }
               break;
 
@@ -279,10 +275,10 @@
 
           for (var customKey in options.customKeys) {
             var customHotkey = options.customKeys[customKey];
-            
+
             // Check well formed custom keys
             if (customHotkey && customHotkey.key && customHotkey.handler) {
-              
+
               // Check if the custom key's condition matches
               if (customHotkey.key(event)) {
                 ePreventDefault();
