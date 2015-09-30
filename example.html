@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Video.js Hotkeys</title>
-    <link href="https://vjs.zencdn.net/4.11/video-js.css" rel="stylesheet">
-    <script src="https://vjs.zencdn.net/4.11/video.js"></script>
+    <link href="https://vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/4.12/video.js"></script>
   </head>
   <body>
     <div>
@@ -28,7 +28,7 @@
           volumeStep: 0.1,
           seekStep: 5,
           enableMute: true,
-          enableFullscreen: false,
+          enableFullscreen: true,
 
           // Enhance existing simple hotkey with a complex hotkey
           fullscreenKey: function(e) {
@@ -43,17 +43,14 @@
             simpleKey: {
               key: function(e) {
                 // Toggle something with S Key
-                //return e.ctrlKey && e.which === 83;
-                return e.which === 83;
+                return (e.which === 83);
               },
               handler: function(player, options) {
                 // Example
-                if (options.enableFullscreen) {
-                  if (player.isFullscreen()) {
-                    player.exitFullscreen();
-                  } else {
-                    player.requestFullscreen();
-                  }
+                if (player.paused()) {
+                  player.play();
+                } else {
+                  player.pause();
                 }
               }
             },
@@ -61,17 +58,13 @@
             // Add new complex hotkey
             complexKey: {
               key: function(e) {
-                // Toggle subtitules with CTRL + D Key
-                return e.ctrlKey && e.which === 68;
+                // Toggle something with CTRL + D Key
+                return (e.ctrlKey && e.which === 68);
               },
               handler: function(player, options) {
                 // Example
-                if (options.enableFullscreen) {
-                  if (player.isFullscreen()) {
-                    player.exitFullscreen();
-                  } else {
-                    player.requestFullscreen();
-                  }
+                if (options.enableMute) {
+                  player.muted(!player.muted());
                 }
               }
             },
@@ -80,13 +73,13 @@
               // Empty
             },
 
-            witkoutKey: {
+            withoutKey: {
               handler: function(player, options) {
-                  console.log('witkoutKey handler');
+                  console.log('withoutKey handler');
               }
             },
 
-            witkoutHandler: {
+            withoutHandler: {
               key: function(e) {
                   return true;
               }
@@ -94,7 +87,7 @@
 
             malformedKey: {
               key: function() {
-                console.log('I have a malformed customKey. Must return a boolean');
+                console.log('I have a malformed customKey. The Key function must return a boolean.');
               },
               handler: function(player, options) {
                 //Empty
