@@ -40,6 +40,14 @@
         customKeys: {}
       };
 
+      const cPlay = 1,
+        cRewind = 2,
+        cForward = 3,
+        cVolumeUp = 4,
+        cVolumeDown = 5,
+        cMute = 6,
+        cFullscreen = 7;
+
       // Use built-in merge function from Video.js v5.0+ or v4.4.0+
       var mergeOptions = videojs.mergeOptions || videojs.util.mergeOptions;
       options = mergeOptions(def_options, options || {});
@@ -90,7 +98,7 @@
             switch (checkKeys(event, player)) {
 
               // Spacebar toggles play/pause
-              case 'play':
+              case cPlay:
                 ePreventDefault();
                 if (alwaysCaptureHotkeys) {
                   // Prevent control activation with space
@@ -105,7 +113,7 @@
                 break;
 
               // Seeking with the left/right arrow keys
-              case 'rewind': // Seek Backward
+              case cRewind: // Seek Backward
                 ePreventDefault();
                 curTime = player.currentTime() - seekStep;
                 // The flash player tech will allow you to seek into negative
@@ -115,13 +123,13 @@
                 }
                 player.currentTime(curTime);
                 break;
-              case 'forward': // Seek Forward
+              case cForward: // Seek Forward
                 ePreventDefault();
                 player.currentTime(player.currentTime() + seekStep);
                 break;
 
               // Volume control with the up/down arrow keys
-              case 'volumeDown':
+              case cVolumeDown:
                 ePreventDefault();
                 if (!enableJogStyle) {
                   player.volume(player.volume() - volumeStep);
@@ -133,7 +141,7 @@
                   player.currentTime(curTime);
                 }
                 break;
-              case 'volumeUp':
+              case cVolumeUp:
                 ePreventDefault();
                 if (!enableJogStyle) {
                   player.volume(player.volume() + volumeStep);
@@ -143,14 +151,14 @@
                 break;
 
               // Toggle Mute with the M key
-              case 'mute':
+              case cMute:
                 if (enableMute) {
                   player.muted(!player.muted());
                 }
                 break;
 
               // Toggle Fullscreen with the F key
-              case  'fullscreen':
+              case  cFullscreen:
                 if (enableFull) {
                   if (player.isFullscreen()) {
                     player.exitFullscreen();
@@ -218,37 +226,37 @@
 
         // Play/Pause check
         if (options.playPauseKey(e, player)) {
-          return 'play';
+          return cPlay;
         }
 
         // Seek Backward check
         if (options.rewindKey(e, player)) {
-          return 'rewind';
+          return cRewind;
         }
 
         // Seek Forward check
         if (options.forwardKey(e, player)) {
-          return 'forward';
+          return cForward;
         }
 
         // Volume Up check
         if (options.volumeUpKey(e, player)) {
-          return 'volumeUp';
+          return cVolumeUp;
         }
 
         // Volume Down check
         if (options.volumeDownKey(e, player)) {
-          return 'volumeDown';
+          return cVolumeDown;
         }
 
         // Mute check
         if (options.muteKey(e, player)) {
-          return 'mute';
+          return cMute;
         }
 
         // Fullscreen check
         if (options.fullscreenKey(e, player)) {
-          return 'fullscreen';
+          return cFullscreen;
         }
       };
 
