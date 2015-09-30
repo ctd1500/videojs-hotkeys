@@ -20,7 +20,7 @@
         <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
     </video>
 
-    <script src="http://cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
+    <script src="videojs.hotkeys.js"></script>
     <script>
       // initialize the plugin
       videojs('video1').ready(function() {
@@ -28,7 +28,81 @@
           volumeStep: 0.1,
           seekStep: 5,
           enableMute: true,
-          enableFullscreen: true
+          enableFullscreen: false,
+
+          // Enhance existing simple hotkey with a complex hotkey
+          fullscreenKey: function(e) {
+            // fullscreen with the F key or Ctrl+Enter
+            return ((e.which === 70) || (e.ctrlKey && e.which === 13));
+          },
+
+          // Custom Keys
+          customKeys: {
+
+            // Add new simple hotkey
+            simpleKey: {
+              key: function(e) {
+                // Toggle something with S Key
+                //return e.ctrlKey && e.which === 83;
+                return e.which === 83;
+              },
+              handler: function(player, options) {
+                // Example
+                if (options.enableFullscreen) {
+                  if (player.isFullscreen()) {
+                    player.exitFullscreen();
+                  } else {
+                    player.requestFullscreen();
+                  }
+                }
+              }
+            },
+
+            // Add new complex hotkey
+            complexKey: {
+              key: function(e) {
+                // Toggle subtitules with CTRL + D Key
+                return e.ctrlKey && e.which === 68;
+              },
+              handler: function(player, options) {
+                // Example
+                if (options.enableFullscreen) {
+                  if (player.isFullscreen()) {
+                    player.exitFullscreen();
+                  } else {
+                    player.requestFullscreen();
+                  }
+                }
+              }
+            },
+
+            emptyHotkey: {
+              // Empty
+            },
+
+            witkoutKey: {
+              handler: function(player, options) {
+                  console.log('witkoutKey handler');
+              }
+            },
+
+            witkoutHandler: {
+              key: function(e) {
+                  return true;
+              }
+            },
+
+            malformedKey: {
+              key: function() {
+                console.log('I have a malformed customKey. Must return a boolean');
+              },
+              handler: function(player, options) {
+                //Empty
+              }
+            }
+
+          }
+
         });
       });
     </script>
