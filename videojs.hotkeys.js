@@ -9,15 +9,15 @@
 'use strict';
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
-    define('videojs_hotkeys', ['videojs'], function(videojs) { factory(root, videojs); });
+    define([], factory.bind(this, root, root.videojs));
   } else if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory(root, require('videojs'));
+    module.exports = factory(root, root.videojs);
   } else {
     factory(root, root.videojs);
   }
 
 })(this, function(window, videojs) {
-    window['videojs_hotkeys'] = {version: "0.2.8"};
+    window['videojs_hotkeys'] = { version: "0.2.8" };
 
     var hotkeys = function(options) {
       var player = this;
