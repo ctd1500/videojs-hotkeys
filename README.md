@@ -144,4 +144,4 @@ videojs('vidId').ready(function() {
   });
 });
 ```
-There are more usage examples available in the source code of the [example file](example.html).
+There are more usage examples available in the source code of the [example file](https://github.com/ctd1500/videojs-hotkeys/blob/master/example.html).
