@@ -40,7 +40,7 @@
       customKeys: {}
     };
 
-    const cPlay = 1,
+    var cPlay = 1,
       cRewind = 2,
       cForward = 3,
       cVolumeUp = 4,
