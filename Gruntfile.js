@@ -77,7 +77,7 @@ module.exports = function(grunt) {
     var m = grunt.file.read(baseName + '.js');
     var version = pkg.version;
 
-    m = m.replace(/(version: ")\d\.\d(\.\d)?(")/g, '$1' + version + '$3');
+    m = m.replace(/(version: ")\d+\.\d+(\.\d+)?(")/g, '$1' + version + '$3');
     grunt.file.write(baseName + '.js', m);
   });
 
@@ -87,9 +87,9 @@ module.exports = function(grunt) {
     var rm = grunt.file.read('README.md');
     var version = pkg.version;
 
-    version = version.replace(/(\d\.\d)\.\d/, '$1');
+    version = version.replace(/(\d+\.\d+)\.\d+/, '$1');
 
-    rm = rm.replace(/(\/\/cdn\.sc\.gl\/videojs-hotkeys\/)\d\.\d(\.\d)?/g, '$1' + version);
+    rm = rm.replace(/(\/\/cdn\.sc\.gl\/videojs-hotkeys\/)\d+\.\d+(\.\d+)?/g, '$1' + version);
     grunt.file.write('README.md', rm);
   });
 };
