@@ -72,6 +72,7 @@ videojs('vidId').ready(function() {
 - `volumeStep` (decimal): The percentage to increase/decrease the volume level when using the Up and Down Arrow keys (default: `0.1`)
 - `seekStep` (integer): The number of seconds to seek forward and backwards when using the Right and Left Arrow keys (default: `5`)
 - `enableMute` (boolean): Enables the volume mute to be toggle by pressing the **M** key (default: `true`)
+- `enableVolumeScroll` (boolean): Enables increasing/decreasing the volume by scrolling the mouse wheel (default: `true`)
 - `enableFullscreen` (boolean): Enables toggling the video fullscreen by pressing the **F** key (default: `true`)
 - `enableNumbers` (boolean): Enables seeking the video by pressing the number keys (default `true`)
 - `alwaysCaptureHotkeys` (boolean): Forces the capture of hotkeys, even when control elements are focused.

@@ -26,6 +26,7 @@
       volumeStep: 0.1,
       seekStep: 5,
       enableMute: true,
+      enableVolumeScroll: true,
       enableFullscreen: true,
       enableNumbers: true,
       enableJogStyle: false,
@@ -55,6 +56,7 @@
     var volumeStep = options.volumeStep,
       seekStep = options.seekStep,
       enableMute = options.enableMute,
+      enableVolumeScroll = options.enableVolumeScroll,
       enableFull = options.enableFullscreen,
       enableNumbers = options.enableNumbers,
       enableJogStyle = options.enableJogStyle,
@@ -81,7 +83,6 @@
     });
 
     var keyDown = function keyDown(event) {
-
       var ewhich = event.which, curTime;
       var ePreventDefault = event.preventDefault;
       // When controls are disabled, hotkeys will be disabled as well
@@ -200,7 +201,6 @@
     };
 
     var doubleClick = function doubleClick(event) {
-
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
 
@@ -215,6 +215,31 @@
               player.exitFullscreen();
             } else {
               player.requestFullscreen();
+            }
+          }
+        }
+      }
+    };
+
+    var mouseScroll = function mouseScroll(event) {
+      // When controls are disabled, hotkeys will be disabled as well
+      if (player.controls()) {
+        var activeEl = event.relatedTarget || event.toElement || document.activeElement;
+        if (alwaysCaptureHotkeys ||
+            activeEl == pEl ||
+            activeEl == pEl.querySelector('.vjs-tech') ||
+            activeEl == pEl.querySelector('.iframeblocker') ||
+            activeEl == pEl.querySelector('.vjs-control-bar')) {
+
+          if (enableVolumeScroll) {
+            event = window.event || event;
+            var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+            event.preventDefault();
+
+            if (delta == 1) {
+              player.volume(player.volume() + volumeStep);
+            } else if (delta == -1) {
+              player.volume(player.volume() - volumeStep);
             }
           }
         }
@@ -297,6 +322,8 @@
 
     player.on('keydown', keyDown);
     player.on('dblclick', doubleClick);
+    player.on('mousewheel', mouseScroll);
+    player.on("DOMMouseScroll", mouseScroll);
 
     return this;
   };
