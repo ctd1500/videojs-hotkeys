@@ -15,7 +15,7 @@
     factory(root, root.videojs);
   }
 
-})(this, function(window, videojs) {
+})(window, function(window, videojs) {
   "use strict";
   window['videojs_hotkeys'] = { version: "0.2.11" };
 
