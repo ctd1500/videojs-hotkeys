@@ -111,7 +111,7 @@ videojs('vidId').ready(function() {
     volumeStep: 0.1,
     fullscreenKey: function(event, player) {
       // override fullscreen to trigger when pressing the F key or Ctrl+Enter
-      return ((e.which === 70) || (e.ctrlKey && e.which === 13));
+      return ((event.which === 70) || (event.ctrlKey && event.which === 13));
     }
   });
 });
