@@ -73,6 +73,24 @@
       });
     }
 
+    player.on('userinactive', function() {
+      var transitionTime, focusingPlayerTimeout, cancelFocusingPlayer;
+
+      transitionTime = 1000;
+
+      cancelFocusingPlayer = function(){
+        clearTimeout(focusingPlayerTimeout);
+      };
+
+      focusingPlayerTimeout = setTimeout(function(){
+        player.off('useractive', cancelFocusingPlayer);
+        pEl.focus();
+      }, transitionTime);
+
+      player.one('useractive', cancelFocusingPlayer);
+
+    });
+
     player.on('play', function() {
       // Fix allowing the YouTube plugin to have hotkey support.
       var ifblocker = pEl.querySelector('.iframeblocker');
