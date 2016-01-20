@@ -6,16 +6,23 @@
  * Licensed under the Apache-2.0 license.
  */
 
-;(function(root, factory) {
+(function (root, factory) {
   if (typeof define === 'function' && define.amd) {
-    define([], factory.bind(this, root, root.videojs));
-  } else if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory(root, root.videojs);
+    // AMD. Register as an anonymous module unless amdModuleId is set
+    define('videojs-hotkeys', ["videojs"], function (a0) {
+      return (factory(a0));
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory(require("video.js"));
   } else {
-    factory(root, root.videojs);
+    root['videojs-hotkeys'] = factory(videojs);
   }
+}(this, function (videojs) {
 
-})(window, function(window, videojs) {
+(function(window, videojs, undefined) {
   "use strict";
   window['videojs_hotkeys'] = { version: "0.2.13" };
 
@@ -345,4 +352,8 @@
   };
 
   videojs.plugin('hotkeys', hotkeys);
-});
+})(window, videojs);
+
+
+}));
+
