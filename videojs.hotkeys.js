@@ -68,6 +68,9 @@
       pEl.setAttribute('tabIndex', '-1');
     }
 
+    // Remove player outline to fix video performance issue
+    pEl.style.outline = "none";
+
     if (alwaysCaptureHotkeys) {
       player.one('play', function() {
         pEl.focus(); // Fixes the .vjs-big-play-button handing focus back to body instead of the player
