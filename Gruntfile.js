@@ -62,6 +62,23 @@ module.exports = function(grunt) {
         src: ['dist/<%= pkg.name %>/*'],
         dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.zip'
       }
+    },
+    'github-release': {
+      options: {
+        repository: 'ctd1500/videojs-hotkeys',
+        auth: {
+          user: 'ctd1500',
+          password: process.env.GITHUB_TERM
+        },
+        release: {
+          tag_name: 'v<%= pkg.version %>',
+          name: 'Release <%= pkg.version %>',
+          draft: true
+        }
+      },
+      files: {
+        src: ['dist/<%= pkg.name %>-<%= pkg.version %>.zip']
+      }
     }
   });
 
@@ -69,6 +86,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-zip');
+  grunt.loadNpmTasks('grunt-github-releaser');
 
   // Default task.
   grunt.registerTask('default', ['clean', 'buildver', 'copy:build', 'uglify:dist', 'dist', 'uglify:minify', 'cdn-link']);
@@ -82,6 +100,9 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('dist', 'Creates distribution files', ['copy:dist', 'zip:dist']);
+
+  grunt.registerTask('release', 'Create a release on github and upload zip file.',
+                     ['clean', 'buildver', 'copy:build', 'uglify:dist', 'dist', 'github-release']);
 
   grunt.registerTask('cdn-link', 'Updates the CDN link in the Readme', function() {
     var rm = grunt.file.read('README.md');
