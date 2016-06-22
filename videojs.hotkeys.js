@@ -305,18 +305,18 @@
     };
 
     function playPauseKey(e) {
-      // Space bar
-      return (e.which === 32);
+      // Space bar or MediaPlayPause
+      return (e.which === 32 || e.which === 179);
     }
 
     function rewindKey(e) {
-      // Left Arrow
-      return (e.which === 37);
+      // Left Arrow or MediaRewind
+      return (e.which === 37 || e.which === 177);
     }
 
     function forwardKey(e) {
-      // Right Arrow
-      return (e.which === 39);
+      // Right Arrow or MediaForward
+      return (e.which === 39 || e.which === 176);
     }
 
     function volumeUpKey(e) {
