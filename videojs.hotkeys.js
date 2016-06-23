@@ -116,7 +116,6 @@
             activeEl == pEl.querySelector('.iframeblocker')) {
 
           switch (checkKeys(event, player)) {
-
             // Spacebar toggles play/pause
             case cPlay:
               ePreventDefault();
