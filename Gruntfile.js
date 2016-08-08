@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+  require('time-grunt')(grunt);
   var baseName = 'videojs.hotkeys';
   var pkg = grunt.file.readJSON('package.json');
   var version = pkg.version;
