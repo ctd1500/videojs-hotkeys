@@ -192,8 +192,8 @@
             default:
               // Number keys from 0-9 skip to a percentage of the video. 0 is 0% and 9 is 90%
               if ((ewhich > 47 && ewhich < 59) || (ewhich > 95 && ewhich < 106)) {
-                // Do not handle if enableModifiersForNumbers set to false and keys are Ctrl or Cmd
-                if (enableModifiersForNumbers || !(event.metaKey || event.ctrlKey)) {
+                // Do not handle if enableModifiersForNumbers set to false and keys are Ctrl, Cmd or Alt
+                if (enableModifiersForNumbers || !(event.metaKey || event.ctrlKey || event.altKey)) {
                   if (enableNumbers) {
                     var sub = 48;
                     if (ewhich > 95) {
