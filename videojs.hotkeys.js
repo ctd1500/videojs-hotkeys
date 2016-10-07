@@ -32,6 +32,7 @@
       enableNumbers: true,
       enableJogStyle: false,
       alwaysCaptureHotkeys: false,
+      enableModifiersForNumbers: true,
       playPauseKey: playPauseKey,
       rewindKey: rewindKey,
       forwardKey: forwardKey,
@@ -61,7 +62,8 @@
       enableFull = options.enableFullscreen,
       enableNumbers = options.enableNumbers,
       enableJogStyle = options.enableJogStyle,
-      alwaysCaptureHotkeys = options.alwaysCaptureHotkeys;
+      alwaysCaptureHotkeys = options.alwaysCaptureHotkeys,
+      enableModifiersForNumbers = options.enableModifiersForNumbers;
 
     // Set default player tabindex to handle keydown and doubleclick events
     if (!pEl.hasAttribute('tabIndex')) {
@@ -190,14 +192,17 @@
             default:
               // Number keys from 0-9 skip to a percentage of the video. 0 is 0% and 9 is 90%
               if ((ewhich > 47 && ewhich < 59) || (ewhich > 95 && ewhich < 106)) {
-                if (enableNumbers) {
-                  var sub = 48;
-                  if (ewhich > 95) {
-                    sub = 96;
+                // Do not handle if enableModifiersForNumbers set to false and keys are Ctrl, Cmd or Alt
+                if (enableModifiersForNumbers || !(event.metaKey || event.ctrlKey || event.altKey)) {
+                  if (enableNumbers) {
+                    var sub = 48;
+                    if (ewhich > 95) {
+                      sub = 96;
+                    }
+                    var number = ewhich - sub;
+                    ePreventDefault();
+                    player.currentTime(player.duration() * number * 0.1);
                   }
-                  var number = ewhich - sub;
-                  ePreventDefault();
-                  player.currentTime(player.duration() * number * 0.1);
                 }
               }
 
