@@ -62,7 +62,8 @@ Check the [Options](#options) section below for the available options and their 
 videojs('vidId').ready(function() {
   this.hotkeys({
     volumeStep: 0.1,
-    seekStep: 5
+    seekStep: 5,
+    enableModifiersForNumbers: false
   });
 });
 ```
@@ -75,6 +76,7 @@ videojs('vidId').ready(function() {
 - `enableVolumeScroll` (boolean): Enables increasing/decreasing the volume by scrolling the mouse wheel (default: `true`)
 - `enableFullscreen` (boolean): Enables toggling the video fullscreen by pressing the **F** key (default: `true`)
 - `enableNumbers` (boolean): Enables seeking the video by pressing the number keys (default `true`)
+- `enableModifiersForNumbers` (boolean): Enables the use of Ctrl/Alt/Cmd + Number keys for skipping around in the video, instead of switching browser tabs. This is enabled by default due to backwards compatibility [PR #35](https://github.com/ctd1500/videojs-hotkeys/pull/35) (default: `true`)
 - `alwaysCaptureHotkeys` (boolean): Forces the capture of hotkeys, even when control elements are focused.
 The **Enter**/**Return** key may be used instead to activate the control elements (default: `false`)
 - `enableJogStyle` (boolean): Enables seeking the video in a broadcast-style jog by pressing the Up and Down Arrow keys.
