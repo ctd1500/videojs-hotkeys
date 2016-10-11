@@ -1,6 +1,6 @@
 {
   "name": "videojs-hotkeys",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "description": "Adds more hotkey support to video.js",
   "main": "videojs.hotkeys.min.js",
   "author": "Chris Dougherty",
