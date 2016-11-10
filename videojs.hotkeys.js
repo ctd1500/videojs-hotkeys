@@ -214,7 +214,7 @@
                   // Check if the custom key's condition matches
                   if (customHotkey.key(event)) {
                     ePreventDefault();
-                    customHotkey.handler(player, options);
+                    customHotkey.handler(player, options, event);
                   }
                 }
               }
