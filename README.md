@@ -132,11 +132,11 @@ videojs('vidId').ready(function() {
     customKeys: {
       // Create custom hotkeys
       ctrldKey: {
-        key: function(e) {
+        key: function(event) {
           // Toggle something with CTRL + D Key
-          return (e.ctrlKey && e.which === 68);
+          return (event.ctrlKey && event.which === 68);
         },
-        handler: function(player, options) {
+        handler: function(player, options, event) {
           // Using mute as an example
           if (options.enableMute) {
             player.muted(!player.muted());
