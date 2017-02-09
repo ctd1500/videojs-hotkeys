@@ -40,7 +40,8 @@
       volumeDownKey: volumeDownKey,
       muteKey: muteKey,
       fullscreenKey: fullscreenKey,
-      customKeys: {}
+      customKeys: {},
+      enableInactiveFocus: true
     };
 
     var cPlay = 1,
@@ -63,7 +64,8 @@
       enableNumbers = options.enableNumbers,
       enableJogStyle = options.enableJogStyle,
       alwaysCaptureHotkeys = options.alwaysCaptureHotkeys,
-      enableModifiersForNumbers = options.enableModifiersForNumbers;
+      enableModifiersForNumbers = options.enableModifiersForNumbers,
+      enableInactiveFocus = options.enableInactiveFocus;
 
     // Set default player tabindex to handle keydown and doubleclick events
     if (!pEl.hasAttribute('tabIndex')) {
@@ -79,20 +81,22 @@
       });
     }
 
-    player.on('userinactive', function() {
-      // When the control bar fades, re-apply focus to the player if last focus was a control button
-      var cancelFocusingPlayer = function() {
-        clearTimeout(focusingPlayerTimeout);
-      };
-      var focusingPlayerTimeout = setTimeout(function() {
-        player.off('useractive', cancelFocusingPlayer);
-        if (doc.activeElement.parentElement == pEl.querySelector('.vjs-control-bar')) {
-          pEl.focus();
-        }
-      }, 10);
+    if (enableInactiveFocus) {
+      player.on('userinactive', function() {
+        // When the control bar fades, re-apply focus to the player if last focus was a control button
+        var cancelFocusingPlayer = function() {
+          clearTimeout(focusingPlayerTimeout);
+        };
+        var focusingPlayerTimeout = setTimeout(function() {
+          player.off('useractive', cancelFocusingPlayer);
+          if (doc.activeElement.parentElement == pEl.querySelector('.vjs-control-bar')) {
+            pEl.focus();
+          }
+        }, 10);
 
-      player.one('useractive', cancelFocusingPlayer);
-    });
+        player.one('useractive', cancelFocusingPlayer);
+      });
+    }
 
     player.on('play', function() {
       // Fix allowing the YouTube plugin to have hotkey support.
