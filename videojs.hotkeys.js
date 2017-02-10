@@ -33,6 +33,7 @@
       enableJogStyle: false,
       alwaysCaptureHotkeys: false,
       enableModifiersForNumbers: true,
+      enableInactiveFocus: true,
       playPauseKey: playPauseKey,
       rewindKey: rewindKey,
       forwardKey: forwardKey,
@@ -40,8 +41,7 @@
       volumeDownKey: volumeDownKey,
       muteKey: muteKey,
       fullscreenKey: fullscreenKey,
-      customKeys: {},
-      enableInactiveFocus: true
+      customKeys: {}
     };
 
     var cPlay = 1,
