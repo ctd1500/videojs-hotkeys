@@ -17,7 +17,7 @@
 
 })(window, function(window, videojs) {
   "use strict";
-  window['videojs_hotkeys'] = { version: "0.2.17" };
+  window['videojs_hotkeys'] = { version: "0.2.18" };
 
   var hotkeys = function(options) {
     var player = this;
@@ -141,7 +141,9 @@
             case cRewind: // Seek Backward
               var wasPlaying = !player.paused();
               ePreventDefault();
-              if (wasPlaying) player.pause();
+              if (wasPlaying) {
+                player.pause();
+              }
               curTime = player.currentTime() - seekStep;
               // The flash player tech will allow you to seek into negative
               // numbers and break the seekbar, so try to prevent that.
@@ -149,14 +151,20 @@
                 curTime = 0;
               }
               player.currentTime(curTime);
-              if (wasPlaying) player.play();
+              if (wasPlaying) {
+                player.play();
+              }
               break;
             case cForward: // Seek Forward
               var wasPlaying = !player.paused();
               ePreventDefault();
-              if (wasPlaying) player.pause();
+              if (wasPlaying) {
+                player.pause();
+              }
               player.currentTime(player.currentTime() + seekStep);
-              if (wasPlaying) player.play();
+              if (wasPlaying) {
+                player.play();
+              }
               break;
 
             // Volume control with the up/down arrow keys
