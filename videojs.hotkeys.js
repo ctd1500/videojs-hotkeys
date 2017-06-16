@@ -34,6 +34,7 @@
       alwaysCaptureHotkeys: false,
       enableModifiersForNumbers: true,
       enableInactiveFocus: true,
+      skipInitialFocus: false,
       playPauseKey: playPauseKey,
       rewindKey: rewindKey,
       forwardKey: forwardKey,
@@ -65,7 +66,8 @@
       enableJogStyle = options.enableJogStyle,
       alwaysCaptureHotkeys = options.alwaysCaptureHotkeys,
       enableModifiersForNumbers = options.enableModifiersForNumbers,
-      enableInactiveFocus = options.enableInactiveFocus;
+      enableInactiveFocus = options.enableInactiveFocus,
+      skipInitialFocus = options.skipInitialFocus;
 
     // Set default player tabindex to handle keydown and doubleclick events
     if (!pEl.hasAttribute('tabIndex')) {
@@ -76,9 +78,11 @@
     pEl.style.outline = "none";
 
     if (alwaysCaptureHotkeys || !player.autoplay()) {
-      player.one('play', function() {
-        pEl.focus(); // Fixes the .vjs-big-play-button handing focus back to body instead of the player
-      });
+      if (!skipInitialFocus) {
+        player.one('play', function() {
+          pEl.focus(); // Fixes the .vjs-big-play-button handing focus back to body instead of the player
+        });
+      }
     }
 
     if (enableInactiveFocus) {
