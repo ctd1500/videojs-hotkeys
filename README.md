@@ -106,6 +106,7 @@ Any override functions that you build **must** return a boolean.
 - `volumeDownKey` (function): This function can override the key for decreasing the volume (Default key: **Down Arrow**)
 - `muteKey` (function): This function can override the key for the volume muting toggle (Default key: **M**)
 - `fullscreenKey` (function): This function can override the key for the fullscreen toggle (Default key: **F**)
+- `percentNumberKey` (function): This function can override the key for number keys (Default key: **0-9**)
 
 These allow you to change keys such as, instead of, or in addition to, "F" for Fullscreen, you can make Ctrl+Enter trigger fullscreen as well.
 Example usage:

@@ -42,6 +42,7 @@
       volumeDownKey: volumeDownKey,
       muteKey: muteKey,
       fullscreenKey: fullscreenKey,
+      percentNumberKey: percentNumberKey,
       customKeys: {}
     };
 
@@ -51,7 +52,8 @@
       cVolumeUp = 4,
       cVolumeDown = 5,
       cMute = 6,
-      cFullscreen = 7;
+      cFullscreen = 7,
+      cPercentNumber = 8;
 
     // Use built-in merge function from Video.js v5.0+ or v4.4.0+
     var mergeOptions = videojs.mergeOptions || videojs.util.mergeOptions;
@@ -113,6 +115,7 @@
 
     var keyDown = function keyDown(event) {
       var ewhich = event.which, curTime;
+
       var ePreventDefault = event.preventDefault;
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
@@ -211,8 +214,8 @@
               }
               break;
 
-            default:
-              // Number keys from 0-9 skip to a percentage of the video. 0 is 0% and 9 is 90%
+            // Number keys from 0-9 skip to a percentage of the video. 0 is 0% and 9 is 90%
+            case cPercentNumber:
               if ((ewhich > 47 && ewhich < 59) || (ewhich > 95 && ewhich < 106)) {
                 // Do not handle if enableModifiersForNumbers set to false and keys are Ctrl, Cmd or Alt
                 if (enableModifiersForNumbers || !(event.metaKey || event.ctrlKey || event.altKey)) {
@@ -227,7 +230,9 @@
                   }
                 }
               }
+              break;
 
+            default:
               // Handle any custom hotkeys
               for (var customKey in options.customKeys) {
                 var customHotkey = options.customKeys[customKey];
@@ -328,6 +333,11 @@
       if (options.fullscreenKey(e, player)) {
         return cFullscreen;
       }
+
+      // Percent Number check
+      if (options.percentNumberKey(e, player)) {
+        return cPercentNumber;
+      }
     };
 
     function playPauseKey(e) {
@@ -363,6 +373,11 @@
     function fullscreenKey(e) {
       // F key
       return (e.which === 70);
+    }
+
+    function percentNumberKey(e) {
+      // 0-9 Number Keys
+      return (e.which > 47 && e.which < 59) || (e.which > 95 && e.which < 106);
     }
 
     player.on('keydown', keyDown);
