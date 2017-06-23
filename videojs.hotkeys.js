@@ -112,8 +112,9 @@
     });
 
     var keyDown = function keyDown(event) {
-      var ewhich = event.which, curTime;
+      var ewhich = event.which, wasPlaying, seekTime;
       var ePreventDefault = event.preventDefault;
+      var duration = player.duration();
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
 
@@ -143,29 +144,35 @@
 
             // Seeking with the left/right arrow keys
             case cRewind: // Seek Backward
-              var wasPlaying = !player.paused();
+              wasPlaying = !player.paused();
               ePreventDefault();
               if (wasPlaying) {
                 player.pause();
               }
-              curTime = player.currentTime() - seekStep;
+              seekTime = player.currentTime() - seekStep;
               // The flash player tech will allow you to seek into negative
               // numbers and break the seekbar, so try to prevent that.
               if (player.currentTime() <= seekStep) {
-                curTime = 0;
+                seekTime = 0;
               }
-              player.currentTime(curTime);
+              player.currentTime(seekTime);
               if (wasPlaying) {
                 player.play();
               }
               break;
             case cForward: // Seek Forward
-              var wasPlaying = !player.paused();
+              wasPlaying = !player.paused();
               ePreventDefault();
               if (wasPlaying) {
                 player.pause();
               }
-              player.currentTime(player.currentTime() + seekStep);
+              seekTime = player.currentTime() + seekStep;
+              // Fixes the player not sending the end event if you
+              // try to seek past the duration on the seekbar.
+              if (seekTime >= duration) {
+                seekTime = duration;
+              }
+              player.currentTime(seekTime);
               if (wasPlaying) {
                 player.play();
               }
@@ -177,11 +184,11 @@
               if (!enableJogStyle) {
                 player.volume(player.volume() - volumeStep);
               } else {
-                curTime = player.currentTime() - 1;
+                seekTime = player.currentTime() - 1;
                 if (player.currentTime() <= 1) {
-                  curTime = 0;
+                  seekTime = 0;
                 }
-                player.currentTime(curTime);
+                player.currentTime(seekTime);
               }
               break;
             case cVolumeUp:
@@ -189,7 +196,11 @@
               if (!enableJogStyle) {
                 player.volume(player.volume() + volumeStep);
               } else {
-                player.currentTime(player.currentTime() + 1);
+                seekTime = player.currentTime() + 1;
+                if (seekTime >= duration) {
+                  seekTime = duration;
+                }
+                player.currentTime(seekTime);
               }
               break;
 
