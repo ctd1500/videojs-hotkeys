@@ -27,7 +27,7 @@ module.exports = function(grunt) {
       },
       minify: {
         options: {
-          banner: '/* <%= pkg.name %> v<%= pkg.version %> - <%= pkg.homepage %> */\n',
+          banner: '/* <%= pkg.name %> v<%= pkg.version %> - <%= pkg.homepage %> */',
           mangle: true,
           compress: true
         },
@@ -53,23 +53,25 @@ module.exports = function(grunt) {
         dest: 'build/'
       }
     },
-    zip: {
+    compress: {
       dist: {
-        router: function(filepath) {
-          var path = require('path');
-          return path.relative('dist', filepath);
+        options: {
+          archive: 'dist/<%= pkg.name %>-<%= pkg.version %>.zip',
+          mode: 'zip',
+          level: 9
         },
-        compression: 'DEFLATE',
-        src: ['dist/<%= pkg.name %>/*'],
-        dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.zip'
+        expand: true,
+        cwd: 'dist/<%= pkg.name %>',
+        src: '**',
+        dest: '<%= pkg.name %>/'
       }
     },
-    'github-release': {
+    github_releaser2: {
       options: {
         repository: 'ctd1500/videojs-hotkeys',
-        auth: {
-          user: 'ctd1500',
-          password: process.env.GITHUB_TERM
+        authentication: {
+          type: 'token',
+          token: process.env.GITHUB_TERM
         },
         release: {
           tag_name: 'v<%= pkg.version %>',
@@ -77,7 +79,7 @@ module.exports = function(grunt) {
           draft: true
         }
       },
-      files: {
+      release: {
         src: ['dist/<%= pkg.name %>-<%= pkg.version %>.zip']
       }
     }
@@ -86,8 +88,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-zip');
-  grunt.loadNpmTasks('grunt-github-releaser');
+  grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-github-releaser2');
 
   // Default task.
   grunt.registerTask('default', ['clean', 'buildver', 'copy:build', 'uglify:dist', 'dist', 'uglify:minify', 'cdn-link']);
@@ -100,10 +102,10 @@ module.exports = function(grunt) {
     grunt.file.write(baseName + '.js', m);
   });
 
-  grunt.registerTask('dist', 'Creates distribution files', ['copy:dist', 'zip:dist']);
+  grunt.registerTask('dist', 'Creates distribution files', ['copy:dist', 'compress:dist']);
 
   grunt.registerTask('release', 'Create a release on github and upload zip file.',
-                     ['clean', 'buildver', 'copy:build', 'uglify:dist', 'dist', 'github-release']);
+                     ['clean', 'buildver', 'copy:build', 'uglify:dist', 'dist', 'github_releaser2']);
 
   grunt.registerTask('cdn-link', 'Updates the CDN link in the Readme', function() {
     var rm = grunt.file.read('README.md');
