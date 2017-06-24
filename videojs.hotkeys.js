@@ -17,7 +17,7 @@
 
 })(window, function(window, videojs) {
   "use strict";
-  window['videojs_hotkeys'] = { version: "0.2.18" };
+  window['videojs_hotkeys'] = { version: "0.2.19" };
 
   var hotkeys = function(options) {
     var player = this;
