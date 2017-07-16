@@ -8,16 +8,19 @@
 
 ;(function(root, factory) {
   if (typeof define === 'function' && define.amd) {
-    define([], factory.bind(this, root, root.videojs));
+    define('videojs-hotkeys', ["video.js"], function (module) {
+      return factory(module.default || module);
+    });
   } else if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory(root, root.videojs);
+    module.exports = factory(require("video.js"));
   } else {
-    factory(root, root.videojs);
+    factory(videojs);
   }
-
-})(window, function(window, videojs) {
+}(this, function (videojs) {
   "use strict";
-  window['videojs_hotkeys'] = { version: "0.2.19" };
+  if (typeof window !== 'undefined') {
+    window['videojs_hotkeys'] = { version: "0.2.19" };
+  }
 
   var hotkeys = function(options) {
     var player = this;
@@ -384,5 +387,6 @@
     return this;
   };
 
-  videojs.plugin('hotkeys', hotkeys);
-});
+  var registerPlugin = videojs.registerPlugin || videojs.plugin;
+  registerPlugin('hotkeys', hotkeys);
+}));
