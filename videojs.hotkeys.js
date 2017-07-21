@@ -170,7 +170,7 @@
               // Fixes the player not sending the end event if you
               // try to seek past the duration on the seekbar.
               if (seekTime >= duration) {
-                seekTime = duration;
+                seekTime = wasPlaying ? duration - .001 : duration;
               }
               player.currentTime(seekTime);
               if (wasPlaying) {
