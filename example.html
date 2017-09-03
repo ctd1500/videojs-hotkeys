@@ -42,6 +42,19 @@
           enableNumbers: false,
           enableVolumeScroll: true,
 
+          // Mimic VLC seek behavior, and default to 5.
+          seekStep: function(e) {
+            if (e.ctrlKey && e.altKey) {
+              return 5*60;
+            } else if (e.ctrlKey) {
+              return 60;
+            } else if (e.altKey) {
+              return 10;
+            } else {
+              return 5;
+            }
+          },
+
           // Enhance existing simple hotkey with a complex hotkey
           fullscreenKey: function(e) {
             // fullscreen with the F key or Ctrl+Enter
