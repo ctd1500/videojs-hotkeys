@@ -78,7 +78,7 @@ videojs('vidId').ready(function() {
 - `enableNumbers` (boolean): Enables seeking the video by pressing the number keys (default `true`)
 - `enableModifiersForNumbers` (boolean): Enables the use of Ctrl/Alt/Cmd + Number keys for skipping around in the video, instead of switching browser tabs. This is enabled by default due to backwards compatibility [PR #35](https://github.com/ctd1500/videojs-hotkeys/pull/35) (default: `true`)
 - `alwaysCaptureHotkeys` (boolean): Forces the capture of hotkeys, even when control elements are focused.
-The **Enter**/**Return** key may be used instead to activate the control elements (default: `false`)
+The **Enter**/**Return** key may be used instead to activate the control elements. (default: `false`) (**Note:** This feature may break accessibility, and cause unexpected behavior)
 - `enableInactiveFocus` (boolean): This reassigns focus to the player when the control bar fades out after a user has clicked a button on the control bar (default: `true`)
 - `skipInitialFocus` (boolean): This stops focusing the player on initial Play under unique autoplay situations. More information in [Issue #44](https://github.com/ctd1500/videojs-hotkeys/issues/44) (default: `false`)
 - `enableJogStyle` (boolean): Enables seeking the video in a broadcast-style jog by pressing the Up and Down Arrow keys.
