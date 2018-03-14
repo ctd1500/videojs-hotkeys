@@ -283,7 +283,7 @@
     var mouseScroll = function mouseScroll(event) {
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
-        var activeEl = event.relatedTarget || event.toElement || doc.activeElement;
+        var activeEl = doc.activeElement;
         if (alwaysCaptureHotkeys ||
             activeEl == pEl ||
             activeEl == pEl.querySelector('.vjs-tech') ||
