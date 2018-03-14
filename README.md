@@ -150,3 +150,8 @@ videojs('vidId').ready(function() {
 });
 ```
 There are more usage examples available in the source code of the [example file](https://github.com/ctd1500/videojs-hotkeys/blob/master/example.html).
+
+***
+[<img src="https://cdn.sc.gl/img/browserstack.svg" width="200">](https://www.browserstack.com)
+
+Thanks to [BrowserStack](https://www.browserstack.com) for sponsoring cross-browser compatibility and feature testing.
