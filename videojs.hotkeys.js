@@ -7,14 +7,14 @@
  */
 
 ;(function(root, factory) {
-  if (typeof define === 'function' && define.amd) {
+  if (typeof window !== 'undefined' && window.videojs) {
+    factory(window.videojs);
+  } else if (typeof define === 'function' && define.amd) {
     define('videojs-hotkeys', ['video.js'], function (module) {
       return factory(module.default || module);
     });
   } else if (typeof module !== 'undefined' && module.exports) {
     module.exports = factory(require('video.js'));
-  } else {
-    factory(videojs);
   }
 }(this, function (videojs) {
   "use strict";
