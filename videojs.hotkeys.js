@@ -154,11 +154,10 @@
               if (wasPlaying) {
                 player.pause();
               }
-              seekTime = player.currentTime() -
-                (typeof seekStep === "function" ? seekStep(event) : seekStep);
+              seekTime = player.currentTime() - seekStepD(event);
               // The flash player tech will allow you to seek into negative
               // numbers and break the seekbar, so try to prevent that.
-              if (player.currentTime() <= seekStep) {
+              if (seekTime <= 0) {
                 seekTime = 0;
               }
               player.currentTime(seekTime);
@@ -172,8 +171,7 @@
               if (wasPlaying) {
                 player.pause();
               }
-              seekTime = player.currentTime() +
-                (typeof seekStep === "function" ? seekStep(event) : seekStep);
+              seekTime = player.currentTime() + seekStepD(event);
               // Fixes the player not sending the end event if you
               // try to seek past the duration on the seekbar.
               if (seekTime >= duration) {
@@ -381,6 +379,11 @@
     function fullscreenKey(e) {
       // F key
       return (e.which === 70);
+    }
+
+    function seekStepD(e) {
+      // SeekStep caller, returns an int, or a function returning an int
+      return (typeof seekStep === "function" ? seekStep(e) : seekStep);
     }
 
     player.on('keydown', keyDown);
