@@ -152,7 +152,8 @@
               if (wasPlaying) {
                 player.pause();
               }
-              seekTime = player.currentTime() - seekStep;
+              seekTime = player.currentTime() -
+                (typeof seekStep === "function" ? seekStep(event) : seekStep);
               // The flash player tech will allow you to seek into negative
               // numbers and break the seekbar, so try to prevent that.
               if (player.currentTime() <= seekStep) {
@@ -169,7 +170,8 @@
               if (wasPlaying) {
                 player.pause();
               }
-              seekTime = player.currentTime() + seekStep;
+              seekTime = player.currentTime() +
+                (typeof seekStep === "function" ? seekStep(event) : seekStep);
               // Fixes the player not sending the end event if you
               // try to seek past the duration on the seekbar.
               if (seekTime >= duration) {

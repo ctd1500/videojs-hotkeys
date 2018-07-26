@@ -71,7 +71,7 @@ videojs('vidId').ready(function() {
 ## Options
 
 - `volumeStep` (decimal): The percentage to increase/decrease the volume level when using the Up and Down Arrow keys (default: `0.1`)
-- `seekStep` (integer): The number of seconds to seek forward and backwards when using the Right and Left Arrow keys (default: `5`)
+- `seekStep` (integer or function): The number of seconds to seek forward and backwards when using the Right and Left Arrow keys (default: `5`), or a function that generates such an integer given the `KeyboardEvent`
 - `enableMute` (boolean): Enables the volume mute to be toggle by pressing the **M** key (default: `true`)
 - `enableVolumeScroll` (boolean): Enables increasing/decreasing the volume by scrolling the mouse wheel (default: `true`)
 - `enableFullscreen` (boolean): Enables toggling the video fullscreen by pressing the **F** key (default: `true`)
