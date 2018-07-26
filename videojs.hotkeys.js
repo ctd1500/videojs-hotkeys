@@ -96,7 +96,9 @@
         };
         var focusingPlayerTimeout = setTimeout(function() {
           player.off('useractive', cancelFocusingPlayer);
-          if (doc.activeElement.parentElement == pEl.querySelector('.vjs-control-bar')) {
+          var activeElement = doc.activeElement;
+          var controlBar = pEl.querySelector('.vjs-control-bar');
+          if (activeElement && activeElement.parentElement == controlBar) {
             pEl.focus();
           }
         }, 10);
