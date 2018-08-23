@@ -31,6 +31,7 @@
       seekStep: 5,
       enableMute: true,
       enableVolumeScroll: true,
+      enableHoverScroll: true,
       enableFullscreen: true,
       enableNumbers: true,
       enableJogStyle: false,
@@ -64,6 +65,7 @@
       seekStep = options.seekStep,
       enableMute = options.enableMute,
       enableVolumeScroll = options.enableVolumeScroll,
+      enableHoverScroll = options.enableHoverScroll,
       enableFull = options.enableFullscreen,
       enableNumbers = options.enableNumbers,
       enableJogStyle = options.enableJogStyle,
@@ -282,15 +284,27 @@
       }
     };
 
+    var volumeHover = false;
+    var volumeSelector = pEl.querySelector('.vjs-volume-menu-button') || pEl.querySelector('.vjs-volume-panel');
+    volumeSelector.onmouseover = function() { volumeHover = true; }
+    volumeSelector.onmouseout = function() { volumeHover = false; }
+    
     var mouseScroll = function mouseScroll(event) {
+      if (enableHoverScroll) {
+        // If we leave this undefined then it can match non-existent elements below
+        var activeEl = 0;
+      } else {
+        var activeEl = doc.activeElement;
+      }
+
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
-        var activeEl = doc.activeElement;
         if (alwaysCaptureHotkeys ||
             activeEl == pEl ||
             activeEl == pEl.querySelector('.vjs-tech') ||
             activeEl == pEl.querySelector('.iframeblocker') ||
-            activeEl == pEl.querySelector('.vjs-control-bar')) {
+            activeEl == pEl.querySelector('.vjs-control-bar') ||
+            volumeHover) {
 
           if (enableVolumeScroll) {
             event = window.event || event;
