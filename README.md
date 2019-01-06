@@ -74,7 +74,7 @@ videojs('vidId').ready(function() {
 - `seekStep` (integer or function): The number of seconds to seek forward and backwards when using the Right and Left Arrow keys, or a function that generates an integer given the `KeyboardEvent` (default: `5`)
 - `enableMute` (boolean): Enables the volume mute to be toggle by pressing the **M** key (default: `true`)
 - `enableVolumeScroll` (boolean): Enables increasing/decreasing the volume by scrolling the mouse wheel (default: `true`)
-- `enableHoverScroll` (boolean): Only changes volume when hovering over volume element (default: `true`)
+- `enableHoverScroll` (boolean): Only changes volume when the mouse is hovering over the volume control elements. This works in connection with `enableVolumeScroll` (default: `false`)
 - `enableFullscreen` (boolean): Enables toggling the video fullscreen by pressing the **F** key (default: `true`)
 - `enableNumbers` (boolean): Enables seeking the video by pressing the number keys (default `true`)
 - `enableModifiersForNumbers` (boolean): Enables the use of Ctrl/Alt/Cmd + Number keys for skipping around in the video, instead of switching browser tabs. This is enabled by default due to backwards compatibility [PR #35](https://github.com/ctd1500/videojs-hotkeys/pull/35) (default: `true`)
