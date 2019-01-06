@@ -31,7 +31,7 @@
       seekStep: 5,
       enableMute: true,
       enableVolumeScroll: true,
-      enableHoverScroll: true,
+      enableHoverScroll: false,
       enableFullscreen: true,
       enableNumbers: true,
       enableJogStyle: false,
@@ -143,7 +143,7 @@
               }
 
               if (player.paused()) {
-                player.play();
+                silencePromise(player.play());
               } else {
                 player.pause();
               }
@@ -164,7 +164,7 @@
               }
               player.currentTime(seekTime);
               if (wasPlaying) {
-                player.play();
+                silencePromise(player.play());
               }
               break;
             case cForward: // Seek Forward
@@ -181,7 +181,7 @@
               }
               player.currentTime(seekTime);
               if (wasPlaying) {
-                player.play();
+                silencePromise(player.play());
               }
               break;
 
@@ -286,9 +286,9 @@
 
     var volumeHover = false;
     var volumeSelector = pEl.querySelector('.vjs-volume-menu-button') || pEl.querySelector('.vjs-volume-panel');
-    volumeSelector.onmouseover = function() { volumeHover = true; }
-    volumeSelector.onmouseout = function() { volumeHover = false; }
-    
+    volumeSelector.onmouseover = function() { volumeHover = true; };
+    volumeSelector.onmouseout = function() { volumeHover = false; };
+
     var mouseScroll = function mouseScroll(event) {
       if (enableHoverScroll) {
         // If we leave this undefined then it can match non-existent elements below
@@ -398,6 +398,12 @@
     function seekStepD(e) {
       // SeekStep caller, returns an int, or a function returning an int
       return (typeof seekStep === "function" ? seekStep(e) : seekStep);
+    }
+
+    function silencePromise(value) {
+      if (value !== undefined && value !== null && typeof value.then === 'function') {
+        value.then(null, function(e) {});
+      }
     }
 
     player.on('keydown', keyDown);
