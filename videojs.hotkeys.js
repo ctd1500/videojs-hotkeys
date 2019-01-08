@@ -403,7 +403,7 @@
     }
 
     function silencePromise(value) {
-      if (value !== undefined && value !== null && typeof value.then === 'function') {
+      if (value != null && typeof value.then === 'function') {
         value.then(null, function(e) {});
       }
     }
