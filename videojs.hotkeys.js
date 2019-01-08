@@ -286,8 +286,10 @@
 
     var volumeHover = false;
     var volumeSelector = pEl.querySelector('.vjs-volume-menu-button') || pEl.querySelector('.vjs-volume-panel');
-    volumeSelector.onmouseover = function() { volumeHover = true; };
-    volumeSelector.onmouseout = function() { volumeHover = false; };
+    if (volumeSelector != null) {
+      volumeSelector.onmouseover = function() { volumeHover = true; };
+      volumeSelector.onmouseout = function() { volumeHover = false; };
+    }
 
     var mouseScroll = function mouseScroll(event) {
       if (enableHoverScroll) {
