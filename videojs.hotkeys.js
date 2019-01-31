@@ -74,6 +74,8 @@
       enableInactiveFocus = options.enableInactiveFocus,
       skipInitialFocus = options.skipInitialFocus;
 
+    var videojsVer = videojs.VERSION;
+
     // Set default player tabindex to handle keydown and doubleclick events
     if (!pEl.hasAttribute('tabIndex')) {
       pEl.setAttribute('tabIndex', '-1');
@@ -264,20 +266,23 @@
     };
 
     var doubleClick = function doubleClick(event) {
-      // When controls are disabled, hotkeys will be disabled as well
-      if (player.controls()) {
+      // Video.js added double-click fullscreen in 7.1.0
+      if (videojsVer != null && videojsVer <= "7.1.0") {
+        // When controls are disabled, hotkeys will be disabled as well
+        if (player.controls()) {
 
-        // Don't catch clicks if any control buttons are focused
-        var activeEl = event.relatedTarget || event.toElement || doc.activeElement;
-        if (activeEl == pEl ||
-            activeEl == pEl.querySelector('.vjs-tech') ||
-            activeEl == pEl.querySelector('.iframeblocker')) {
+          // Don't catch clicks if any control buttons are focused
+          var activeEl = event.relatedTarget || event.toElement || doc.activeElement;
+          if (activeEl == pEl ||
+              activeEl == pEl.querySelector('.vjs-tech') ||
+              activeEl == pEl.querySelector('.iframeblocker')) {
 
-          if (enableFull) {
-            if (player.isFullscreen()) {
-              player.exitFullscreen();
-            } else {
-              player.requestFullscreen();
+            if (enableFull) {
+              if (player.isFullscreen()) {
+                player.exitFullscreen();
+              } else {
+                player.requestFullscreen();
+              }
             }
           }
         }
