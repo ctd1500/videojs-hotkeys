@@ -26,5 +26,9 @@
     "grunt-contrib-uglify": "^3.0.1",
     "grunt-github-releaser2": "^0.1.1",
     "time-grunt": "^1.4.0"
+  },
+  "scripts": {
+    "build": "grunt",
+    "release": "grunt release"
   }
 }

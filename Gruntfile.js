@@ -2,7 +2,6 @@ module.exports = function(grunt) {
   require('time-grunt')(grunt);
   var baseName = 'videojs.hotkeys';
   var pkg = grunt.file.readJSON('package.json');
-  var version = pkg.version;
 
   // Project configuration.
   grunt.initConfig({
@@ -71,7 +70,7 @@ module.exports = function(grunt) {
         repository: 'ctd1500/videojs-hotkeys',
         authentication: {
           type: 'token',
-          token: process.env.GITHUB_TERM
+          token: grunt.file.readJSON('.github.json').token
         },
         release: {
           tag_name: 'v<%= pkg.version %>',
@@ -96,9 +95,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('buildver', 'Update version', function() {
     var m = grunt.file.read(baseName + '.js');
-    var version = pkg.version;
 
-    m = m.replace(/(version: ")\d+\.\d+(\.\d+)?(")/g, '$1' + version + '$3');
+    m = m.replace(/(version: ")\d+\.\d+(\.\d+)?(")/g, '$1' + pkg.version + '$3');
     grunt.file.write(baseName + '.js', m);
   });
 
