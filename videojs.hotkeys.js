@@ -19,7 +19,7 @@
 }(this, function (videojs) {
   "use strict";
   if (typeof window !== 'undefined') {
-    window['videojs_hotkeys'] = { version: "0.2.25" };
+    window['videojs_hotkeys'] = { version: "0.2.26" };
   }
 
   var hotkeys = function(options) {
