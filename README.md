@@ -82,6 +82,8 @@ videojs('vidId').ready(function() {
 The **Enter**/**Return** key may be used instead to activate the control elements. (default: `false`) (**Note:** This feature may break accessibility, and cause unexpected behavior)
 - `enableInactiveFocus` (boolean): This reassigns focus to the player when the control bar fades out after a user has clicked a button on the control bar (default: `true`)
 - `skipInitialFocus` (boolean): This stops focusing the player on initial Play under unique autoplay situations. More information in [Issue #44](https://github.com/ctd1500/videojs-hotkeys/issues/44) (default: `false`)
+- `captureDocumentHotkeys` (boolean): Capture document keydown events to also use hotkeys even if the player does not have focus. If you enable this option, **you must** configure `documentHotkeysFocusElementFilter` (default: `false`)
+- `documentHotkeysFocusElementFilter` (function): Filter function to capture document hotkeys (if `captureDocumentHotkeys` is enabled) depending on the current focused element. For example, if you want to capture hotkeys when the player is not focused and avoid conflicts when the user is focusing a particular link: `documentHotkeysFocusElementFilter: e => e.tagName.toLowerCase() === 'body'` (default: `() => false`)
 - `enableJogStyle` (boolean): Enables seeking the video in a broadcast-style jog by pressing the Up and Down Arrow keys.
 `seekStep` will also need to be changed to get a proper broadcast-style jog.
 This feature and the changes for seekStep are explained a bit more in [PR #12](https://github.com/ctd1500/videojs-hotkeys/pull/12) (default `false`)

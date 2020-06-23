@@ -36,6 +36,8 @@
       enableNumbers: true,
       enableJogStyle: false,
       alwaysCaptureHotkeys: false,
+      captureDocumentHotkeys: false,
+      documentHotkeysFocusElementFilter: function () { return false },
       enableModifiersForNumbers: true,
       enableInactiveFocus: true,
       skipInitialFocus: false,
@@ -70,6 +72,8 @@
       enableNumbers = options.enableNumbers,
       enableJogStyle = options.enableJogStyle,
       alwaysCaptureHotkeys = options.alwaysCaptureHotkeys,
+      captureDocumentHotkeys = options.captureDocumentHotkeys,
+      documentHotkeysFocusElementFilter = options.documentHotkeysFocusElementFilter,
       enableModifiersForNumbers = options.enableModifiersForNumbers,
       enableInactiveFocus = options.enableInactiveFocus,
       skipInitialFocus = options.skipInitialFocus;
@@ -122,18 +126,22 @@
 
     var keyDown = function keyDown(event) {
       var ewhich = event.which, wasPlaying, seekTime;
-      var ePreventDefault = event.preventDefault;
+      var ePreventDefault = event.preventDefault.bind(event);
       var duration = player.duration();
       // When controls are disabled, hotkeys will be disabled as well
       if (player.controls()) {
 
         // Don't catch keys if any control buttons are focused, unless alwaysCaptureHotkeys is true
         var activeEl = doc.activeElement;
-        if (alwaysCaptureHotkeys ||
-            activeEl == pEl ||
-            activeEl == pEl.querySelector('.vjs-tech') ||
-            activeEl == pEl.querySelector('.vjs-control-bar') ||
-            activeEl == pEl.querySelector('.iframeblocker')) {
+        if (
+          alwaysCaptureHotkeys ||
+          (captureDocumentHotkeys && documentHotkeysFocusElementFilter(activeEl)) ||
+
+          activeEl == pEl ||
+          activeEl == pEl.querySelector('.vjs-tech') ||
+          activeEl == pEl.querySelector('.vjs-control-bar') ||
+          activeEl == pEl.querySelector('.iframeblocker')
+        ) {
 
           switch (checkKeys(event, player)) {
             // Spacebar toggles play/pause
@@ -417,6 +425,10 @@
     player.on('dblclick', doubleClick);
     player.on('mousewheel', mouseScroll);
     player.on("DOMMouseScroll", mouseScroll);
+
+    if (captureDocumentHotkeys) {
+      document.addEventListener('keydown', function (event) { keyDown(event) });
+    }
 
     return this;
   };
