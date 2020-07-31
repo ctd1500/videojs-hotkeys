@@ -147,7 +147,7 @@
             // Spacebar toggles play/pause
             case cPlay:
               ePreventDefault();
-              if (alwaysCaptureHotkeys) {
+              if (alwaysCaptureHotkeys || captureDocumentHotkeys) {
                 // Prevent control activation with space
                 event.stopPropagation();
               }
