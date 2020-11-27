@@ -55,6 +55,16 @@ Or always load the latest version:
 <script src="/path/to/videojs.hotkeys.js"></script>
 ```
 
+### npm version
+You can also install it as a package from npm:
+```sh
+npm install --save videojs-hotkeys
+```
+and include it in your project by importing it:
+```js
+import "videojs-hotkeys";
+```
+
 ### Enable the plugin
 Add hotkeys to your Videojs ready function.
 Check the [Options](#options) section below for the available options and their meaning.
