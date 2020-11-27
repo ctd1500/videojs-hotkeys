@@ -30,5 +30,6 @@
   "scripts": {
     "build": "grunt",
     "release": "grunt release"
-  }
+  },
+  "types": "index.d.ts"
 }
