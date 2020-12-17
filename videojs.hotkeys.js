@@ -427,7 +427,11 @@
     player.on("DOMMouseScroll", mouseScroll);
 
     if (captureDocumentHotkeys) {
-      document.addEventListener('keydown', function (event) { keyDown(event) });
+      document.addEventListener('keydown', function captureDocumentHotkeysCb (event) { keyDown(event) });
+
+      this.dispose = function () {
+        document.removeEventListener('keydown', captureDocumentHotkeysCb);
+      }
     }
 
     return this;
