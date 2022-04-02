@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Переход по ссылкам с помощью горячих клавиш - "Нубекс"</title>
+  <script>
+	$(document).bind('keydown', 'ctrl+n', function(){document.getElementById('nubex').click();});
+ </script>
+ </head>
+ <body>
+   <a href="http://nubex.ru" id="nubex">Конструктор сайтов "Нубекс"</a>
+ </body>
+</html>
