@@ -423,7 +423,12 @@
     }
 
     if (captureDocumentHotkeys) {
-      document.addEventListener('keydown', function (event) { keyDown(event) });
+      var capDocHK = function (event) { keyDown(event) };
+      document.addEventListener('keydown', capDocHK);
+
+      this.dispose = function () {
+        document.removeEventListener('keydown', capDocHK);
+      }
     } else {
       player.on('keydown', keyDown);
     }
