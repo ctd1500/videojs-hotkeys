@@ -14,7 +14,8 @@
       return factory(module.default || module);
     });
   } else if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory(require('video.js'));
+    var videojs = require('video.js');
+    module.exports = factory(videojs.default || videojs);
   }
 }(this, function (videojs) {
   "use strict";
