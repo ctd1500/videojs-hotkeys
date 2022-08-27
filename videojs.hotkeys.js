@@ -422,14 +422,15 @@
       }
     }
 
-    player.on('keydown', keyDown);
+    if (captureDocumentHotkeys) {
+      document.addEventListener('keydown', function (event) { keyDown(event) });
+    } else {
+      player.on('keydown', keyDown);
+    }
+
     player.on('dblclick', doubleClick);
     player.on('mousewheel', mouseScroll);
     player.on("DOMMouseScroll", mouseScroll);
-
-    if (captureDocumentHotkeys) {
-      document.addEventListener('keydown', function (event) { keyDown(event) });
-    }
 
     return this;
   };
