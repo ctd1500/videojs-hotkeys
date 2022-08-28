@@ -2,9 +2,10 @@
   "name": "videojs-hotkeys",
   "version": "0.2.27",
   "description": "Adds more hotkey support to video.js",
-  "main": "videojs.hotkeys.min.js",
   "author": "Chris Dougherty",
   "license": "Apache-2.0",
+  "main": "videojs.hotkeys.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/ctd1500/videojs-hotkeys.git"
@@ -30,6 +31,5 @@
   "scripts": {
     "build": "grunt",
     "release": "grunt release"
-  },
-  "types": "index.d.ts"
+  }
 }

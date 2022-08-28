@@ -6,6 +6,7 @@ videojs-hotkeys
 - **[Usage](#usage)**
   - [CDN version](#cdn-version)
   - [Self hosted](#self-hosted)
+  - [Npm / Yarn package](#yarn--npm-package)
   - **[Enable the plugin](#enable-the-plugin)**
 - **[Options](#options)**
 - **[Custom Hotkeys and Overrides](#custom-hotkeys-and-overrides)**
@@ -50,6 +51,19 @@ Or always load the latest version:
 <script src="//cdn.sc.gl/videojs-hotkeys/latest/videojs.hotkeys.min.js"></script>
 ```
 
+### Yarn / npm package
+You can install the package:
+```sh
+yarn add videojs-hotkeys
+# or npm
+npm i videojs-hotkeys --save
+```
+
+Import it into your project:
+```js
+import "videojs-hotkeys";
+```
+
 ### Self hosted
 ```html
 <script src="/path/to/videojs.hotkeys.js"></script>
@@ -58,6 +72,18 @@ Or always load the latest version:
 ### Enable the plugin
 Add hotkeys to your Videojs ready function.
 Check the [Options](#options) section below for the available options and their meaning.
+```js
+videojs('vidId', {
+  plugins: {
+    hotkeys: {
+      volumeStep: 0.1,
+      seekStep: 5,
+      enableModifiersForNumbers: false
+    },
+  },
+});
+```
+or
 ```js
 videojs('vidId').ready(function() {
   this.hotkeys({
@@ -113,14 +139,16 @@ Any override functions that you build **must** return a boolean.
 These allow you to change keys such as, instead of, or in addition to, "F" for Fullscreen, you can make Ctrl+Enter trigger fullscreen as well.
 Example usage:
 ```js
-videojs('vidId').ready(function() {
-  this.hotkeys({
-    volumeStep: 0.1,
-    fullscreenKey: function(event, player) {
-      // override fullscreen to trigger when pressing the F key or Ctrl+Enter
-      return ((event.which === 70) || (event.ctrlKey && event.which === 13));
-    }
-  });
+videojs('vidId', {
+  plugins: {
+    hotkeys: {
+      volumeStep: 0.1,
+      fullscreenKey: function(event, player) {
+        // override fullscreen to trigger when pressing the F key or Ctrl+Enter
+        return ((event.which === 70) || (event.ctrlKey && event.which === 13));
+      }
+    },
+  },
 });
 ```
 
@@ -131,25 +159,27 @@ videojs('vidId').ready(function() {
     - `handler` (function):  This function runs your custom code if the result of the `key` function was `true`.
 
 ```js
-videojs('vidId').ready(function() {
-  this.hotkeys({
-    volumeStep: 0.1,
-    customKeys: {
-      // Create custom hotkeys
-      ctrldKey: {
-        key: function(event) {
-          // Toggle something with CTRL + D Key
-          return (event.ctrlKey && event.which === 68);
-        },
-        handler: function(player, options, event) {
-          // Using mute as an example
-          if (options.enableMute) {
-            player.muted(!player.muted());
+videojs('vidId', {
+  plugins: {
+    hotkeys: {
+      volumeStep: 0.1,
+      customKeys: {
+        // Create custom hotkeys
+        ctrldKey: {
+          key: function(event) {
+            // Toggle something with CTRL + D Key
+            return (event.ctrlKey && event.which === 68);
+          },
+          handler: function(player, options, event) {
+            // Using mute as an example
+            if (options.enableMute) {
+              player.muted(!player.muted());
+            }
           }
         }
       }
-    }
-  });
+    },
+  },
 });
 ```
 There are more usage examples available in the source code of the [example file](https://github.com/ctd1500/videojs-hotkeys/blob/master/example.html).
