@@ -162,11 +162,7 @@
 
             // Seeking with the left/right arrow keys
             case cRewind: // Seek Backward
-              wasPlaying = !player.paused();
               ePreventDefault();
-              if (wasPlaying) {
-                player.pause();
-              }
               seekTime = player.currentTime() - seekStepD(event);
               // The flash player tech will allow you to seek into negative
               // numbers and break the seekbar, so try to prevent that.
@@ -174,16 +170,9 @@
                 seekTime = 0;
               }
               player.currentTime(seekTime);
-              if (wasPlaying) {
-                silencePromise(player.play());
-              }
               break;
             case cForward: // Seek Forward
-              wasPlaying = !player.paused();
               ePreventDefault();
-              if (wasPlaying) {
-                player.pause();
-              }
               seekTime = player.currentTime() + seekStepD(event);
               // Fixes the player not sending the end event if you
               // try to seek past the duration on the seekbar.
@@ -191,9 +180,6 @@
                 seekTime = wasPlaying ? duration - .001 : duration;
               }
               player.currentTime(seekTime);
-              if (wasPlaying) {
-                silencePromise(player.play());
-              }
               break;
 
             // Volume control with the up/down arrow keys
