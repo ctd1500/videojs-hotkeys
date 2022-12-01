@@ -41,6 +41,7 @@
       documentHotkeysFocusElementFilter: function () { return false },
       enableModifiersForNumbers: true,
       enableInactiveFocus: true,
+      enableSeekPause: true,
       skipInitialFocus: false,
       playPauseKey: playPauseKey,
       rewindKey: rewindKey,
@@ -77,6 +78,7 @@
       documentHotkeysFocusElementFilter = options.documentHotkeysFocusElementFilter,
       enableModifiersForNumbers = options.enableModifiersForNumbers,
       enableInactiveFocus = options.enableInactiveFocus,
+      enableSeekPause = options.enableSeekPause,
       skipInitialFocus = options.skipInitialFocus;
 
     var videojsVer = videojs.VERSION;
@@ -163,6 +165,10 @@
             // Seeking with the left/right arrow keys
             case cRewind: // Seek Backward
               ePreventDefault();
+              if (enableSeekPause) {
+                wasPlaying = !player.paused();
+                if (wasPlaying) player.pause();
+              }
               seekTime = player.currentTime() - seekStepD(event);
               // The flash player tech will allow you to seek into negative
               // numbers and break the seekbar, so try to prevent that.
@@ -170,9 +176,16 @@
                 seekTime = 0;
               }
               player.currentTime(seekTime);
+              if (enableSeekPause) {
+                if (wasPlaying) silencePromise(player.play());
+              }
               break;
             case cForward: // Seek Forward
               ePreventDefault();
+              if (enableSeekPause) {
+                wasPlaying = !player.paused();
+                if (wasPlaying) player.pause();
+              }
               seekTime = player.currentTime() + seekStepD(event);
               // Fixes the player not sending the end event if you
               // try to seek past the duration on the seekbar.
@@ -180,6 +193,9 @@
                 seekTime = wasPlaying ? duration - .001 : duration;
               }
               player.currentTime(seekTime);
+              if (enableSeekPause) {
+                if (wasPlaying) silencePromise(player.play());
+              }
               break;
 
             // Volume control with the up/down arrow keys
