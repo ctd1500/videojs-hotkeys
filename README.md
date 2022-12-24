@@ -114,6 +114,7 @@ The **Enter**/**Return** key may be used instead to activate the control element
 `seekStep` will also need to be changed to get a proper broadcast-style jog.
 This feature and the changes for seekStep are explained a bit more in [PR #12](https://github.com/ctd1500/videojs-hotkeys/pull/12) (default `false`)
 (**Note:** This isn't a feature for everyone, and enabling JogStyle will disable the volume hotkeys)
+- `enableSeekPause` (boolean): Right/Left Arrow keys will trigger pause/playing events for consistency with video.js seekbar [PR #41](https://github.com/ctd1500/videojs-hotkeys/pull/41). You can disable it for more smooth seek (default `true`)
 
 **There are more options specifically for customizing hotkeys described below.**
 

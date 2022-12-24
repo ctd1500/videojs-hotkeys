@@ -41,6 +41,7 @@
       documentHotkeysFocusElementFilter: function () { return false },
       enableModifiersForNumbers: true,
       enableInactiveFocus: true,
+      enableSeekPause: true,
       skipInitialFocus: false,
       playPauseKey: playPauseKey,
       rewindKey: rewindKey,
@@ -77,6 +78,7 @@
       documentHotkeysFocusElementFilter = options.documentHotkeysFocusElementFilter,
       enableModifiersForNumbers = options.enableModifiersForNumbers,
       enableInactiveFocus = options.enableInactiveFocus,
+      enableSeekPause = options.enableSeekPause,
       skipInitialFocus = options.skipInitialFocus;
 
     var videojsVer = videojs.VERSION;
@@ -162,10 +164,10 @@
 
             // Seeking with the left/right arrow keys
             case cRewind: // Seek Backward
-              wasPlaying = !player.paused();
               ePreventDefault();
-              if (wasPlaying) {
-                player.pause();
+              if (enableSeekPause) {
+                wasPlaying = !player.paused();
+                if (wasPlaying) player.pause();
               }
               seekTime = player.currentTime() - seekStepD(event);
               // The flash player tech will allow you to seek into negative
@@ -174,15 +176,15 @@
                 seekTime = 0;
               }
               player.currentTime(seekTime);
-              if (wasPlaying) {
-                silencePromise(player.play());
+              if (enableSeekPause) {
+                if (wasPlaying) silencePromise(player.play());
               }
               break;
             case cForward: // Seek Forward
-              wasPlaying = !player.paused();
               ePreventDefault();
-              if (wasPlaying) {
-                player.pause();
+              if (enableSeekPause) {
+                wasPlaying = !player.paused();
+                if (wasPlaying) player.pause();
               }
               seekTime = player.currentTime() + seekStepD(event);
               // Fixes the player not sending the end event if you
@@ -191,8 +193,8 @@
                 seekTime = wasPlaying ? duration - .001 : duration;
               }
               player.currentTime(seekTime);
-              if (wasPlaying) {
-                silencePromise(player.play());
+              if (enableSeekPause) {
+                if (wasPlaying) silencePromise(player.play());
               }
               break;
 
