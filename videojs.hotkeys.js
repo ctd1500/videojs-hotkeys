@@ -298,12 +298,12 @@
 		var volumeHover = false;
 		var volumeSelector = pEl.querySelector(".vjs-volume-menu-button") || pEl.querySelector(".vjs-volume-panel");
 		if (volumeSelector != null) {
-			volumeSelector.onmouseover = function () {
+			volumeSelector.addEventListener('mouseover', function () {
 				volumeHover = true;
-			};
-			volumeSelector.onmouseout = function () {
+			});
+			volumeSelector.addEventListener('mouseout', function () {
 				volumeHover = false;
-			};
+			});
 		}
 
 		var mouseScroll = function mouseScroll(event) {
