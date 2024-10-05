@@ -1,7 +1,7 @@
-import { VideoJsPlayer } from 'video.js';
+import VideoJsPlayer from 'video.js/dist/types/player';
 
-declare module 'video.js' {
-    interface VideoJsPlayer {
+declare module 'video.js/dist/types/player' {
+    export default interface VideoJsPlayer {
         hotkeys(options?: VideoJsHotkeysOptions): void;
     }
 }
