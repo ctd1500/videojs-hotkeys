@@ -1,6 +1,6 @@
 {
 	"name": "videojs-hotkeys",
-	"version": "0.2.29",
+	"version": "0.2.30",
 	"description": "Adds more hotkey support to video.js",
 	"author": "Chris Dougherty",
 	"license": "Apache-2.0",
