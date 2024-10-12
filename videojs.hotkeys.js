@@ -38,7 +38,7 @@
 			enableJogStyle: false,
 			alwaysCaptureHotkeys: false,
 			captureDocumentHotkeys: false,
-			documentHotkeysFocusElementFilter: function () {
+			documentHotkeysFocusElementFilter: () => {
 				return false;
 			},
 			enableModifiersForNumbers: true,
@@ -63,7 +63,7 @@
 			cFullscreen = 7;
 
 		// Use built-in merge function from Video.js v5.0+ or v4.4.0+
-		var mergeOptions = videojs.obj.merge ||videojs.mergeOptions || videojs.util.mergeOptions;
+		var mergeOptions = videojs.obj?.merge || videojs.mergeOptions || videojs.util.mergeOptions;
 		options = mergeOptions(def_options, options || {});
 
 		var volumeStep = options.volumeStep,
@@ -93,23 +93,24 @@
 
 		if (alwaysCaptureHotkeys || !player.autoplay()) {
 			if (!skipInitialFocus) {
-				player.one("play", function () {
+				player.one("play", () => {
 					pEl.focus(); // Fixes the .vjs-big-play-button handing focus back to body instead of the player
 				});
 			}
 		}
 
 		if (enableInactiveFocus) {
-			player.on("userinactive", function () {
+			player.on("userinactive", () => {
 				// When the control bar fades, re-apply focus to the player if last focus was a control button
-				var cancelFocusingPlayer = function () {
+				var cancelFocusingPlayer = () => {
 					clearTimeout(focusingPlayerTimeout);
 				};
-				var focusingPlayerTimeout = setTimeout(function () {
+				var focusingPlayerTimeout = setTimeout(() => {
 					player.off("useractive", cancelFocusingPlayer);
 					var activeElement = doc.activeElement;
+					var parentEl = activeElement.parentElement;
 					var controlBar = pEl.querySelector(".vjs-control-bar");
-					if (activeElement && activeElement.parentElement == controlBar) {
+					if (activeElement && (controlBar == parentEl || controlBar == parentEl.parentElement)) {
 						pEl.focus();
 					}
 				}, 10);
@@ -118,7 +119,7 @@
 			});
 		}
 
-		player.on("play", function () {
+		player.on("play", () => {
 			// Fix allowing the YouTube plugin to have hotkey support.
 			var ifblocker = pEl.querySelector(".iframeblocker");
 			if (ifblocker && ifblocker.style.display === "") {
@@ -298,10 +299,10 @@
 		var volumeHover = false;
 		var volumeSelector = pEl.querySelector(".vjs-volume-menu-button") || pEl.querySelector(".vjs-volume-panel");
 		if (volumeSelector != null) {
-			volumeSelector.addEventListener('mouseover', function () {
+			volumeSelector.addEventListener("mouseover", () => {
 				volumeHover = true;
 			});
-			volumeSelector.addEventListener('mouseout', function () {
+			volumeSelector.addEventListener("mouseout", () => {
 				volumeHover = false;
 			});
 		}
@@ -430,7 +431,7 @@
 			};
 			document.addEventListener("keydown", capDocHK);
 
-			this.dispose = function () {
+			this.dispose = () => {
 				document.removeEventListener("keydown", capDocHK);
 			};
 		} else {
