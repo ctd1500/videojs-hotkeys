@@ -63,7 +63,7 @@
 			cFullscreen = 7;
 
 		// Use built-in merge function from Video.js v5.0+ or v4.4.0+
-		var mergeOptions = videojs.obj?.merge || videojs.mergeOptions || videojs.util.mergeOptions;
+		var mergeOptions = (videojs.obj && videojs.obj.merge) || videojs.mergeOptions || videojs.util.mergeOptions;
 		options = mergeOptions(def_options, options || {});
 
 		var volumeStep = options.volumeStep,
